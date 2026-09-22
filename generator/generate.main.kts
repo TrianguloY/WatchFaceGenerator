@@ -1,3 +1,4 @@
+import java.awt.Color
 import java.io.File
 import kotlin.math.roundToInt
 
@@ -109,7 +110,46 @@ class WatchFaceScene(val fullwidth: Int, val fullheight: Int) : Generator() {
         ) {
             complicationSlot.build().let { builder.append(it) }
         }
+    }
 
+    fun partDraw(horizontal: Range = FULL, vertical: Range = FULL, alphaNormal: Double = 1.0, alphaAmbient: Double = 1.0, shapes: PartDraw.() -> Unit) {
+        tag(
+            "PartDraw",
+            "height" to (vertical.range * fullheight).roundToInt(),
+            "width" to (horizontal.range * fullwidth).roundToInt(),
+            "x" to (horizontal.start * fullwidth).roundToInt(),
+            "y" to (vertical.start * fullheight).roundToInt(),
+            "alpha" to (alphaNormal * 255).roundToInt(),
+        ) {
+            tag(
+                "Variant",
+                "mode" to "AMBIENT",
+                "target" to "alpha",
+                "value" to (alphaAmbient * 255).roundToInt(),
+            )
+            PartDraw(
+                fullwidth = (horizontal.range * fullwidth).roundToInt(),
+                fullheight = (vertical.range * fullheight).roundToInt(),
+            ).apply {
+                shapes()
+            }.build().let { builder.append(it) }
+        }
+    }
+}
+
+class PartDraw(val fullwidth: Int, val fullheight: Int) : Generator() {
+    fun roundRectangle(horizontal: Range = FULL, vertical: Range = FULL, radiusX: Double = 0.5, radiusY: Double = 0.5, color: Color) {
+        tag(
+            "RoundRectangle",
+            "height" to (vertical.range * fullheight).roundToInt(),
+            "width" to (horizontal.range * fullwidth).roundToInt(),
+            "x" to (horizontal.start * fullwidth).roundToInt(),
+            "y" to (vertical.start * fullheight).roundToInt(),
+            "cornerRadiusX" to (radiusX * horizontal.range * fullwidth).roundToInt(),
+            "cornerRadiusY" to (radiusY * vertical.range * fullwidth).roundToInt(),
+        ) {
+            tag("Fill", "color" to color.run { "#%02x%02x%02x".format(red, green, blue) })
+        }
     }
 }
 
@@ -184,6 +224,11 @@ val content = WatchFace(height = 450, width = 450)
                 "📱 ${expression("[COMPLICATION.TEXT]")}%"
             }
         }
+    }
+
+    comment("AOD")
+    partDraw(alphaNormal = 0.0, alphaAmbient = 0.5) {
+        roundRectangle(color = Color.BLACK)
     }
 }
 
