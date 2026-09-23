@@ -4,10 +4,11 @@ import kotlin.math.roundToInt
 
 typealias Range = ClosedFloatingPointRange<Double>
 
+///////////// Utils ///////////////
+
+val Color.asHex get() = "#%02x%02x%02x".format(red, green, blue)
 
 val FULL: Range = 0.0..1.0
-
-print("Generating")
 
 
 ///////////// Builder ///////////////
@@ -15,7 +16,7 @@ print("Generating")
 open class Generator {
     internal val builder: StringBuilder = StringBuilder()
 
-    internal fun build() = builder.toString()
+    internal open fun build() = builder.toString()
 
     fun comment(comment: String) {
         with(builder) {
@@ -24,10 +25,10 @@ open class Generator {
         }
     }
 
-    fun tag(tag: String, vararg attributes: Pair<String, Any>, content: (Generator.() -> Unit)? = null) {
+    fun tag(tag: String, vararg attributes: Pair<String, Any>?, content: (Generator.() -> Unit)? = null) {
         builder.apply {
             append("<$tag")
-            for ((key, value) in attributes) {
+            for ((key, value) in attributes.filterNotNull()) {
                 append(" $key=\"$value\"")
             }
             if (content != null) {
@@ -43,9 +44,12 @@ open class Generator {
     }
 
     fun cdata(text: String) {
-        builder.append("<![CDATA[")
-            .append(text)
-            .append("]]>")
+        with(builder) {
+            append("<![CDATA[")
+            append(text)
+            append("]]>")
+            appendLine()
+        }
     }
 }
 
@@ -63,23 +67,25 @@ class WatchFaceText : Generator() {
 }
 
 private var nextSlotId = 0
+private var nextName = 0
 
-class WatchFaceScene(val fullwidth: Int, val fullheight: Int) : Generator() {
-    fun partText(horizontal: Range = FULL, vertical: Range = FULL, text: WatchFaceText.() -> String) {
+class WatchFaceScene(val fullWidth: Int, val fullHeight: Int) : Generator() {
+    fun partText(horizontal: Range = FULL, vertical: Range = FULL, color: Color? = null, text: WatchFaceText.() -> String) {
         WatchFaceText().apply {
-            val height = (vertical.range * fullheight).roundToInt()
+            val height = (vertical.range * fullHeight).roundToInt()
             tag(
                 "PartText",
                 "height" to height,
-                "width" to (horizontal.range * fullwidth).roundToInt(),
-                "x" to (horizontal.start * fullwidth).roundToInt(),
-                "y" to (vertical.start * fullheight).roundToInt()
+                "width" to (horizontal.range * fullWidth).roundToInt(),
+                "x" to (horizontal.start * fullWidth).roundToInt(),
+                "y" to (vertical.start * fullHeight).roundToInt()
             ) {
                 tag("Text") {
                     tag(
                         "Font",
                         "family" to "SYNC_TO_DEVICE",
-                        "size" to height
+                        "size" to height,
+                        color?.let { "color" to color.asHex }
                     ) {
                         tag("Template") {
                             WatchFaceText().apply {
@@ -95,7 +101,7 @@ class WatchFaceScene(val fullwidth: Int, val fullheight: Int) : Generator() {
 
     fun complication(id: String? = null, horizontal: Range = FULL, vertical: Range = FULL, types: WatchFaceComplicationSlot.() -> Unit) {
         val slotId = id ?: nextSlotId++
-        val complicationSlot = WatchFaceComplicationSlot((horizontal.range * fullwidth).roundToInt(), (vertical.range * fullheight).roundToInt()).apply {
+        val complicationSlot = WatchFaceComplicationSlot((horizontal.range * fullWidth).roundToInt(), (vertical.range * fullHeight).roundToInt()).apply {
             types()
         }
 
@@ -103,63 +109,159 @@ class WatchFaceScene(val fullwidth: Int, val fullheight: Int) : Generator() {
             "ComplicationSlot",
             "slotId" to slotId,
             "supportedTypes" to complicationSlot.types.joinToString(" "),
-            "height" to (vertical.range * fullheight).roundToInt(),
-            "width" to (horizontal.range * fullwidth).roundToInt(),
-            "x" to (horizontal.start * fullwidth).roundToInt(),
-            "y" to (vertical.start * fullheight).roundToInt()
+            "height" to (vertical.range * fullHeight).roundToInt(),
+            "width" to (horizontal.range * fullWidth).roundToInt(),
+            "x" to (horizontal.start * fullWidth).roundToInt(),
+            "y" to (vertical.start * fullHeight).roundToInt()
         ) {
             complicationSlot.build().let { builder.append(it) }
         }
     }
 
-    fun partDraw(horizontal: Range = FULL, vertical: Range = FULL, alphaNormal: Double = 1.0, alphaAmbient: Double = 1.0, shapes: PartDraw.() -> Unit) {
+    fun partDraw(horizontal: Range = FULL, vertical: Range = FULL, alphaNormal: Double? = null, alphaAmbient: Double? = null, shapes: PartDraw.() -> Unit) {
         tag(
             "PartDraw",
-            "height" to (vertical.range * fullheight).roundToInt(),
-            "width" to (horizontal.range * fullwidth).roundToInt(),
-            "x" to (horizontal.start * fullwidth).roundToInt(),
-            "y" to (vertical.start * fullheight).roundToInt(),
-            "alpha" to (alphaNormal * 255).roundToInt(),
+            "height" to (vertical.range * fullHeight).roundToInt(),
+            "width" to (horizontal.range * fullWidth).roundToInt(),
+            "x" to (horizontal.start * fullWidth).roundToInt(),
+            "y" to (vertical.start * fullHeight).roundToInt(),
+            alphaNormal?.let { "alpha" to (it * 255).roundToInt() },
         ) {
-            tag(
-                "Variant",
-                "mode" to "AMBIENT",
-                "target" to "alpha",
-                "value" to (alphaAmbient * 255).roundToInt(),
-            )
+            if (alphaAmbient != null) {
+                tag(
+                    "Variant",
+                    "mode" to "AMBIENT",
+                    "target" to "alpha",
+                    "value" to (alphaAmbient * 255).roundToInt(),
+                )
+            }
             PartDraw(
-                fullwidth = (horizontal.range * fullwidth).roundToInt(),
-                fullheight = (vertical.range * fullheight).roundToInt(),
+                fullWidth = (horizontal.range * fullWidth).roundToInt(),
+                fullHeight = (vertical.range * fullHeight).roundToInt(),
             ).apply {
                 shapes()
             }.build().let { builder.append(it) }
         }
     }
-}
 
-class PartDraw(val fullwidth: Int, val fullheight: Int) : Generator() {
-    fun roundRectangle(horizontal: Range = FULL, vertical: Range = FULL, radiusX: Double = 0.5, radiusY: Double = 0.5, color: Color) {
+    fun group(name: String? = null, horizontal: Range = FULL, vertical: Range = FULL, scene: WatchFaceScene.() -> Unit) {
+        val width = (horizontal.range * fullWidth).roundToInt()
+        val height = (vertical.range * fullHeight).roundToInt()
         tag(
-            "RoundRectangle",
-            "height" to (vertical.range * fullheight).roundToInt(),
-            "width" to (horizontal.range * fullwidth).roundToInt(),
-            "x" to (horizontal.start * fullwidth).roundToInt(),
-            "y" to (vertical.start * fullheight).roundToInt(),
-            "cornerRadiusX" to (radiusX * horizontal.range * fullwidth).roundToInt(),
-            "cornerRadiusY" to (radiusY * vertical.range * fullwidth).roundToInt(),
+            "Group",
+            "name" to (name ?: "group_${nextName++}"),
+            "height" to height,
+            "width" to width,
+            "x" to (horizontal.start * fullWidth).roundToInt(),
+            "y" to (vertical.start * fullHeight).roundToInt(),
         ) {
-            tag("Fill", "color" to color.run { "#%02x%02x%02x".format(red, green, blue) })
+            WatchFaceScene(width, height)
+                .apply { scene() }
+                .build().let { builder.append(it) }
+        }
+    }
+
+    fun condition(expressions: WatchFaceCondition.() -> Unit) {
+        tag("Condition") {
+            WatchFaceCondition(fullWidth, fullHeight)
+                .apply { expressions() }
+                .build().let { builder.append(it) }
+        }
+    }
+
+    fun digitalClock(horizontal: Range = FULL, vertical: Range = FULL, clock: WatchFaceDigitalClock.() -> Unit) {
+        val width = (horizontal.range * fullWidth).roundToInt()
+        val height = (vertical.range * fullHeight).roundToInt()
+        tag(
+            "DigitalClock",
+            "height" to height,
+            "width" to width,
+            "x" to (horizontal.start * fullWidth).roundToInt(),
+            "y" to (vertical.start * fullHeight).roundToInt(),
+        ) {
+            WatchFaceDigitalClock(width, height)
+                .apply { clock() }
+                .build().let { builder.append(it) }
         }
     }
 }
 
-class WatchFaceComplicationSlot(val fullwidth: Int, val fullheight: Int) : Generator() {
+class WatchFaceDigitalClock(val fullWidth: Int, val fullHeight: Int) : Generator() {
+    fun timeText(horizontal: Range = FULL, vertical: Range = FULL, color: Color? = null, format: () -> String) {
+        val height = (vertical.range * fullHeight).roundToInt()
+        tag(
+            "TimeText",
+            "height" to height,
+            "width" to (horizontal.range * fullWidth).roundToInt(),
+            "x" to (horizontal.start * fullWidth).roundToInt(),
+            "y" to (vertical.start * fullHeight).roundToInt(),
+            "format" to format()
+        ) {
+            tag(
+                "Font",
+                "family" to "SYNC_TO_DEVICE",
+                "size" to height,
+                color?.let { "color" to color.asHex }
+            )
+        }
+    }
+}
+
+class WatchFaceCondition(val fullWidth: Int, val fullHeight: Int) : Generator() {
+    private data class Expression(val name: String, val check: String, val then: WatchFaceScene.() -> Unit)
+
+    private val expressions = mutableListOf<Expression>()
+
+    fun expression(expression: String, name: String? = null, scene: WatchFaceScene.() -> Unit) {
+        expressions += Expression(name ?: "expression_${nextName++}", expression, scene)
+    }
+
+    override fun build(): String {
+        tag("Expressions") {
+            expressions.forEach { expression ->
+                tag(
+                    "Expression",
+                    "name" to expression.name
+                ) {
+                    cdata(expression.check)
+                }
+            }
+        }
+        expressions.forEach { expression ->
+            tag("Compare", "expression" to expression.name) {
+                WatchFaceScene(fullWidth, fullHeight).apply {
+                    expression.then(this) // what black magic is this...
+                }.build().let { builder.append(it) }
+            }
+        }
+
+        return super.build()
+    }
+}
+
+class PartDraw(val fullWidth: Int, val fullHeight: Int) : Generator() {
+    fun roundRectangle(color: Color, horizontal: Range = FULL, vertical: Range = FULL, radiusX: Double = 0.5, radiusY: Double = 0.5) {
+        tag(
+            "RoundRectangle",
+            "height" to (vertical.range * fullHeight).roundToInt(),
+            "width" to (horizontal.range * fullWidth).roundToInt(),
+            "x" to (horizontal.start * fullWidth).roundToInt(),
+            "y" to (vertical.start * fullHeight).roundToInt(),
+            "cornerRadiusX" to (radiusX * horizontal.range * fullWidth).roundToInt(),
+            "cornerRadiusY" to (radiusY * vertical.range * fullWidth).roundToInt(),
+        ) {
+            tag("Fill", "color" to color.asHex)
+        }
+    }
+}
+
+class WatchFaceComplicationSlot(val fullWidth: Int, val fullHeight: Int) : Generator() {
     internal val types = mutableListOf("EMPTY")
-    fun ofType(type: String, content: WatchFaceScene.() -> Unit) {
+    fun ofType(type: String, scene: WatchFaceScene.() -> Unit) {
         types += type
         tag("Complication", "type" to type) {
-            WatchFaceScene(fullwidth, fullheight)
-                .apply { content() }
+            WatchFaceScene(fullWidth, fullHeight)
+                .apply { scene() }
                 .build().let { builder.append(it) }
         }
     }
@@ -185,7 +287,10 @@ fun WatchFace(height: Int, width: Int, scene: WatchFaceScene.() -> Unit) =
         }
     }.build()
 
+
 ///////////// Design ///////////////
+
+print("Generating")
 
 val content = WatchFace(height = 450, width = 450)
 {
@@ -228,8 +333,38 @@ val content = WatchFace(height = 450, width = 450)
 
     comment("AOD")
     partDraw(alphaNormal = 0.0, alphaAmbient = 0.5) {
-        roundRectangle(color = Color.BLACK)
+        roundRectangle(Color.BLACK)
     }
+
+    comment("Notification counter")
+    group(
+        horizontal = 0.9..0.98,
+        vertical = 0.46..0.54
+    ) {
+        condition {
+            expression("[UNREAD_NOTIFICATION_COUNT] >= 0") {
+                partDraw {
+                    roundRectangle(Color.WHITE)
+                }
+                partText(color = Color.BLACK) {
+                    expression("[UNREAD_NOTIFICATION_COUNT]+1")
+                }
+            }
+        }
+    }
+
+    comment("Time")
+    digitalClock(
+        horizontal = 0.5..0.9,
+        vertical = 0.15..0.85
+    ) {
+        comment("Hour")
+        timeText(vertical = 0.0..0.55) { "hh" }
+
+        comment("Minutes")
+        timeText(vertical = 0.45..1.0) { "mm" }
+    }
+
 }
 
 val content2 = buildString {

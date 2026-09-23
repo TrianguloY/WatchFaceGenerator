@@ -7,7 +7,8 @@
 <Text>
 <Font family="SYNC_TO_DEVICE" size="23">
 <Template>
-<![CDATA[%s/%s/%s]]><Parameter expression="[YEAR]"/>
+<![CDATA[%s/%s/%s]]>
+<Parameter expression="[YEAR]"/>
 <Parameter expression="[MONTH_Z]"/>
 <Parameter expression="[DAY]"/>
 </Template>
@@ -19,7 +20,8 @@
 <Text>
 <Font family="SYNC_TO_DEVICE" size="22">
 <Template>
-<![CDATA[%s - %s]]><Parameter expression="[MONTH_F]"/>
+<![CDATA[%s - %s]]>
+<Parameter expression="[MONTH_F]"/>
 <Parameter expression="[DAY_OF_WEEK_F]"/>
 </Template>
 </Font>
@@ -30,7 +32,8 @@
 <Text>
 <Font family="SYNC_TO_DEVICE" size="22">
 <Template>
-<![CDATA[⌚%s%%]]><Parameter expression="[BATTERY_PERCENT]"/>
+<![CDATA[⌚%s%%]]>
+<Parameter expression="[BATTERY_PERCENT]"/>
 </Template>
 </Font>
 </Text>
@@ -42,7 +45,8 @@
 <Text>
 <Font family="SYNC_TO_DEVICE" size="22">
 <Template>
-<![CDATA[📱 %s%%]]><Parameter expression="[COMPLICATION.TEXT]"/>
+<![CDATA[📱 %s%%]]>
+<Parameter expression="[COMPLICATION.TEXT]"/>
 </Template>
 </Font>
 </Text>
@@ -56,5 +60,43 @@
 <Fill color="#000000"/>
 </RoundRectangle>
 </PartDraw>
+<!-- Notification counter -->
+<Group name="group_0" height="36" width="36" x="405" y="207">
+<Condition>
+<Expressions>
+<Expression name="expression_1">
+<![CDATA[[UNREAD_NOTIFICATION_COUNT] >= 0]]>
+</Expression>
+</Expressions>
+<Compare expression="expression_1">
+<PartDraw height="36" width="36" x="0" y="0">
+<RoundRectangle height="36" width="36" x="0" y="0" cornerRadiusX="18" cornerRadiusY="18">
+<Fill color="#ffffff"/>
+</RoundRectangle>
+</PartDraw>
+<PartText height="36" width="36" x="0" y="0">
+<Text>
+<Font family="SYNC_TO_DEVICE" size="36" color="#000000">
+<Template>
+<![CDATA[%s]]>
+<Parameter expression="[UNREAD_NOTIFICATION_COUNT]+1"/>
+</Template>
+</Font>
+</Text>
+</PartText>
+</Compare>
+</Condition>
+</Group>
+<!-- Time -->
+<DigitalClock height="315" width="180" x="225" y="68">
+<!-- Hour -->
+<TimeText height="173" width="180" x="0" y="0" format="hh">
+<Font family="SYNC_TO_DEVICE" size="173"/>
+</TimeText>
+<!-- Minutes -->
+<TimeText height="173" width="180" x="0" y="142" format="mm">
+<Font family="SYNC_TO_DEVICE" size="173"/>
+</TimeText>
+</DigitalClock>
 </Scene>
 </WatchFace>
