@@ -296,24 +296,22 @@ val content = WatchFace(height = 450, width = 450)
 {
     comment("Date 1")
     partText(
-        horizontal = 0.0..1.0,
-        vertical = 0.05..0.1,
+        vertical = 0.1..0.15,
     ) {
         "${expression("[YEAR]")}/${expression("[MONTH_Z]")}/${expression("[DAY]")}"
     }
 
     comment("Date 2")
     partText(
-        horizontal = 0.0..1.0,
-        vertical = 0.1..0.15
+        vertical = 0.15..0.2
     ) {
         "${expression("[MONTH_F]")} - ${expression("[DAY_OF_WEEK_F]")}"
     }
 
     comment("Watch battery")
     partText(
-        horizontal = 0.2..0.5,
-        vertical = 0.2..0.25
+        horizontal = 0.12..0.31,
+        vertical = 0.21..0.26
     ) {
         "⌚${expression("[BATTERY_PERCENT]")}%"
     }
@@ -321,8 +319,8 @@ val content = WatchFace(height = 450, width = 450)
     comment("Phone Battery")
     complication(
         id = "1",
-        horizontal = 0.5..0.8,
-        vertical = 0.2..0.25,
+        horizontal = 0.31..0.5,
+        vertical = 0.21..0.26,
     ) {
         ofType("SHORT_TEXT") {
             partText {
@@ -356,7 +354,7 @@ val content = WatchFace(height = 450, width = 450)
     comment("Time")
     digitalClock(
         horizontal = 0.5..0.9,
-        vertical = 0.15..0.85
+        vertical = 0.17..0.84
     ) {
         comment("Hour")
         timeText(vertical = 0.0..0.55) { "hh" }
@@ -365,215 +363,6 @@ val content = WatchFace(height = 450, width = 450)
         timeText(vertical = 0.45..1.0) { "mm" }
     }
 
-}
-
-val content2 = buildString {
-    append(
-        """
-<WatchFace
-    clipShape="CIRCLE"
-    height="450"
-    width="450">
-    <Metadata
-        key="CLOCK_TYPE"
-        value="DIGITAL" />
-    <Scene>
-
-        <!-- Date 1 -->
-        <PartText
-            height="20"
-            width="450"
-            x="0"
-            y="20">
-            <Text>
-                <Font
-                    family="SYNC_TO_DEVICE"
-                    size="20">
-                    <Template>
-                        <![CDATA[%s/%s/%s]]>
-                        <Parameter expression="[YEAR]" />
-                        <Parameter expression="[MONTH_Z]" />
-                        <Parameter expression="[DAY]" />
-                    </Template>
-                </Font>
-            </Text>
-        </PartText>
-        <!-- Date 2 -->
-        <PartText
-            height="20"
-            width="450"
-            x="0"
-            y="40">
-            <Text>
-                <Font
-                    family="SYNC_TO_DEVICE"
-                    size="20">
-                    <Template>
-                        <![CDATA[%s - %s]]>
-                        <Parameter expression="[MONTH_F]" />
-                        <Parameter expression="[DAY_OF_WEEK_F]" />
-                    </Template>
-                </Font>
-            </Text>
-        </PartText>
-
-        <!-- Watch battery -->
-        <PartText
-            height="20"
-            width="165"
-            x="60"
-            y="70">
-            <Text>
-                <Font
-                    family="SYNC_TO_DEVICE"
-                    size="20">
-                    <Template>
-                        <![CDATA[⌚ %s%%]]>
-                        <Parameter expression="[BATTERY_PERCENT]" />
-                    </Template>
-                </Font>
-            </Text>
-        </PartText>
-
-        <!-- Phone Battery -->
-        <ComplicationSlot
-            height="20"
-            slotId="1"
-            supportedTypes="EMPTY SHORT_TEXT"
-            width="165"
-            x="225"
-            y="70">
-            <Complication type="SHORT_TEXT">
-                <PartText
-                    height="20"
-                    width="165"
-                    x="0"
-                    y="0">
-                    <Text>
-                        <Font
-                            family="SYNC_TO_DEVICE"
-                            size="20">
-                            <Template>
-                                <![CDATA[📱 %s%%]]>
-                                <Parameter expression="[COMPLICATION.TEXT]" />
-                            </Template>
-                        </Font>
-                    </Text>
-                </PartText>
-            </Complication>
-        </ComplicationSlot>
-
-
-        <!-- AOD -->
-        <PartDraw
-            alpha="0"
-            height="450"
-            width="450"
-            x="0"
-            y="0">
-            <RoundRectangle
-                cornerRadiusX="225"
-                cornerRadiusY="225"
-                height="450"
-                width="450"
-                x="0"
-                y="0">
-                <Fill color="#000000" />
-            </RoundRectangle>
-            <Variant
-                mode="AMBIENT"
-                target="alpha"
-                value="128" />
-        </PartDraw>
-
-        <!-- Notification counter -->
-        <Group
-            name="unread_notifications"
-            height="50"
-            width="50"
-            x="390"
-            y="200">
-            <Condition>
-                <Expressions>
-                    <Expression name="notifications">
-                        <![CDATA[ [UNREAD_NOTIFICATION_COUNT] > 0  ]]>
-                    </Expression>
-                </Expressions>
-                <Compare expression="notifications">
-                    <PartDraw
-                        height="50"
-                        width="50"
-                        x="0"
-                        y="0">
-                        <RoundRectangle
-                            cornerRadiusX="25"
-                            cornerRadiusY="25"
-                            height="50"
-                            width="50"
-                            x="0"
-                            y="0">
-                            <Fill color="#FFFFFF" />
-                        </RoundRectangle>
-                    </PartDraw>
-                    <PartText
-                        height="50"
-                        width="50"
-                        x="0"
-                        y="0">
-                        <Text>
-                            <Font
-                                color="#000000"
-                                family="SYNC_TO_DEVICE"
-                                size="50">
-                                <Template>
-                                    <![CDATA[%s]]>
-                                    <Parameter expression="[UNREAD_NOTIFICATION_COUNT]" />
-                                </Template>
-                            </Font>
-                        </Text>
-                    </PartText>
-                </Compare>
-            </Condition>
-        </Group>
-
-        <!-- Time -->
-        <DigitalClock
-            height="450"
-            width="225"
-            x="225"
-            y="0">
-            <!-- HOUR -->
-            <TimeText
-                align="START"
-                format="hh"
-                height="150"
-                width="225"
-                x="0"
-                y="75">
-                <Font
-                    color="#ffffffff"
-                    family="SYNC_TO_DEVICE"
-                    size="150" />
-            </TimeText>
-
-            <!-- MINUTE -->
-            <TimeText
-                align="START"
-                format="mm"
-                height="150"
-                width="225"
-                x="0"
-                y="225">
-                <Font
-                    color="#ffffffff"
-                    family="SYNC_TO_DEVICE"
-                    size="150" />
-            </TimeText>
-        </DigitalClock>
-    </Scene>
-</WatchFace>
-    """
-    )
 }
 
 File("../watchface/src/main/res/raw", "watchface.xml").writeText(content)

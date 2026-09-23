@@ -3,9 +3,9 @@
 <Metadata key="CLOCK_TYPE" value="DIGITAL"/>
 <Scene>
 <!-- Date 1 -->
-<PartText height="23" width="450" x="0" y="23">
+<PartText height="22" width="450" x="0" y="45">
 <Text>
-<Font family="SYNC_TO_DEVICE" size="23">
+<Font family="SYNC_TO_DEVICE" size="22">
 <Template>
 <![CDATA[%s/%s/%s]]>
 <Parameter expression="[YEAR]"/>
@@ -16,9 +16,9 @@
 </Text>
 </PartText>
 <!-- Date 2 -->
-<PartText height="22" width="450" x="0" y="45">
+<PartText height="23" width="450" x="0" y="68">
 <Text>
-<Font family="SYNC_TO_DEVICE" size="22">
+<Font family="SYNC_TO_DEVICE" size="23">
 <Template>
 <![CDATA[%s - %s]]>
 <Parameter expression="[MONTH_F]"/>
@@ -28,9 +28,9 @@
 </Text>
 </PartText>
 <!-- Watch battery -->
-<PartText height="22" width="135" x="90" y="90">
+<PartText height="23" width="86" x="54" y="95">
 <Text>
-<Font family="SYNC_TO_DEVICE" size="22">
+<Font family="SYNC_TO_DEVICE" size="23">
 <Template>
 <![CDATA[⌚%s%%]]>
 <Parameter expression="[BATTERY_PERCENT]"/>
@@ -39,11 +39,11 @@
 </Text>
 </PartText>
 <!-- Phone Battery -->
-<ComplicationSlot slotId="1" supportedTypes="EMPTY SHORT_TEXT" height="22" width="135" x="225" y="90">
+<ComplicationSlot slotId="1" supportedTypes="EMPTY SHORT_TEXT" height="23" width="86" x="140" y="95">
 <Complication type="SHORT_TEXT">
-<PartText height="22" width="135" x="0" y="0">
+<PartText height="23" width="86" x="0" y="0">
 <Text>
-<Font family="SYNC_TO_DEVICE" size="22">
+<Font family="SYNC_TO_DEVICE" size="23">
 <Template>
 <![CDATA[📱 %s%%]]>
 <Parameter expression="[COMPLICATION.TEXT]"/>
@@ -88,14 +88,14 @@
 </Condition>
 </Group>
 <!-- Time -->
-<DigitalClock height="315" width="180" x="225" y="68">
+<DigitalClock height="301" width="180" x="225" y="77">
 <!-- Hour -->
-<TimeText height="173" width="180" x="0" y="0" format="hh">
-<Font family="SYNC_TO_DEVICE" size="173"/>
+<TimeText height="166" width="180" x="0" y="0" format="hh">
+<Font family="SYNC_TO_DEVICE" size="166"/>
 </TimeText>
 <!-- Minutes -->
-<TimeText height="173" width="180" x="0" y="142" format="mm">
-<Font family="SYNC_TO_DEVICE" size="173"/>
+<TimeText height="166" width="180" x="0" y="135" format="mm">
+<Font family="SYNC_TO_DEVICE" size="166"/>
 </TimeText>
 </DigitalClock>
 </Scene>
