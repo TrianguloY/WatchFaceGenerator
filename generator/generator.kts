@@ -1,20 +1,28 @@
-
 import java.awt.Color
 import kotlin.math.roundToInt
 
-////////// Utils //////////
+// Utils
+
 val Color.asHex get() = "#%02x%02x%02x".format(red, green, blue)
 
 typealias Range = ClosedFloatingPointRange<Double>
 
+internal val Range.range get() = endInclusive - start
+internal operator fun Range.times(i: Int) = (start * i).roundToInt() to (range * i).roundToInt()
+
 val FULL: Range = 0.0..1.0
+
+// global
+
+private var nextSlotId = 0
+private var nextName = 0
 
 ///////////// Builder ///////////////
 
 open class Generator {
     internal val builder: StringBuilder = StringBuilder()
 
-    internal open fun build() = builder.toString()
+    open fun build() = builder.toString()
 
     fun comment(comment: String) {
         with(builder) {
@@ -49,9 +57,12 @@ open class Generator {
             appendLine()
         }
     }
+
+    fun Generator.add() {
+        this.build().let { this@Generator.builder.append(it) }
+    }
 }
 
-internal val Range.range get() = endInclusive - start
 internal val REPLACEMENT_VALUE_DO_NOT_USE = "$!@#@!$"
 
 class WatchFaceText : Generator() {
@@ -64,19 +75,17 @@ class WatchFaceText : Generator() {
     }
 }
 
-private var nextSlotId = 0
-private var nextName = 0
 
 class WatchFaceScene(val fullWidth: Int, val fullHeight: Int) : Generator() {
     fun partText(horizontal: Range = FULL, vertical: Range = FULL, color: Color? = null, text: WatchFaceText.() -> String) {
+        val (x, width) = horizontal * fullWidth
+        val (y, height) = vertical * fullHeight
+
         WatchFaceText().apply {
-            val height = (vertical.range * fullHeight).roundToInt()
             tag(
                 "PartText",
-                "height" to height,
-                "width" to (horizontal.range * fullWidth).roundToInt(),
-                "x" to (horizontal.start * fullWidth).roundToInt(),
-                "y" to (vertical.start * fullHeight).roundToInt()
+                "x" to x, "y" to y,
+                "width" to width, "height" to height,
             ) {
                 tag("Text") {
                     tag(
@@ -86,20 +95,21 @@ class WatchFaceScene(val fullWidth: Int, val fullHeight: Int) : Generator() {
                         color?.let { "color" to color.asHex }
                     ) {
                         tag("Template") {
-                            WatchFaceText().apply {
-                                cdata(text().replace("%", "%%").replace(REPLACEMENT_VALUE_DO_NOT_USE, "%s"))
-                                expressions.forEach { tag("Parameter", "expression" to it) }
-                            }.build().let { builder.append(it) }
+                            cdata(text().replace("%", "%%").replace(REPLACEMENT_VALUE_DO_NOT_USE, "%s"))
+                            expressions.forEach { tag("Parameter", "expression" to it) }
                         }
                     }
                 }
             }
-        }.build().let { builder.append(it) }
+        }.add()
     }
 
     fun complication(id: String? = null, horizontal: Range = FULL, vertical: Range = FULL, types: WatchFaceComplicationSlot.() -> Unit) {
+        val (x, width) = horizontal * fullWidth
+        val (y, height) = vertical * fullHeight
+
         val slotId = id ?: nextSlotId++
-        val complicationSlot = WatchFaceComplicationSlot((horizontal.range * fullWidth).roundToInt(), (vertical.range * fullHeight).roundToInt()).apply {
+        val complicationSlot = WatchFaceComplicationSlot(width, height).apply {
             types()
         }
 
@@ -107,22 +117,21 @@ class WatchFaceScene(val fullWidth: Int, val fullHeight: Int) : Generator() {
             "ComplicationSlot",
             "slotId" to slotId,
             "supportedTypes" to complicationSlot.types.joinToString(" "),
-            "height" to (vertical.range * fullHeight).roundToInt(),
-            "width" to (horizontal.range * fullWidth).roundToInt(),
-            "x" to (horizontal.start * fullWidth).roundToInt(),
-            "y" to (vertical.start * fullHeight).roundToInt()
+            "x" to x, "y" to y,
+            "width" to width, "height" to height,
         ) {
-            complicationSlot.build().let { builder.append(it) }
+            complicationSlot.add()
         }
     }
 
     fun partDraw(horizontal: Range = FULL, vertical: Range = FULL, alphaNormal: Double? = null, alphaAmbient: Double? = null, shapes: PartDraw.() -> Unit) {
+        val (x, width) = horizontal * fullWidth
+        val (y, height) = vertical * fullHeight
+
         tag(
             "PartDraw",
-            "height" to (vertical.range * fullHeight).roundToInt(),
-            "width" to (horizontal.range * fullWidth).roundToInt(),
-            "x" to (horizontal.start * fullWidth).roundToInt(),
-            "y" to (vertical.start * fullHeight).roundToInt(),
+            "x" to x, "y" to y,
+            "width" to width, "height" to height,
             alphaNormal?.let { "alpha" to (it * 255).roundToInt() },
         ) {
             if (alphaAmbient != null) {
@@ -134,28 +143,27 @@ class WatchFaceScene(val fullWidth: Int, val fullHeight: Int) : Generator() {
                 )
             }
             PartDraw(
-                fullWidth = (horizontal.range * fullWidth).roundToInt(),
-                fullHeight = (vertical.range * fullHeight).roundToInt(),
+                fullWidth = width,
+                fullHeight = height,
             ).apply {
                 shapes()
-            }.build().let { builder.append(it) }
+            }.add()
         }
     }
 
     fun group(name: String? = null, horizontal: Range = FULL, vertical: Range = FULL, scene: WatchFaceScene.() -> Unit) {
-        val width = (horizontal.range * fullWidth).roundToInt()
-        val height = (vertical.range * fullHeight).roundToInt()
+        val (x, width) = horizontal * fullWidth
+        val (y, height) = vertical * fullHeight
+
         tag(
             "Group",
             "name" to (name ?: "group_${nextName++}"),
-            "height" to height,
-            "width" to width,
-            "x" to (horizontal.start * fullWidth).roundToInt(),
-            "y" to (vertical.start * fullHeight).roundToInt(),
+            "x" to x, "y" to y,
+            "width" to width, "height" to height,
         ) {
             WatchFaceScene(width, height)
                 .apply { scene() }
-                .build().let { builder.append(it) }
+                .add()
         }
     }
 
@@ -163,36 +171,35 @@ class WatchFaceScene(val fullWidth: Int, val fullHeight: Int) : Generator() {
         tag("Condition") {
             WatchFaceCondition(fullWidth, fullHeight)
                 .apply { expressions() }
-                .build().let { builder.append(it) }
+                .add()
         }
     }
 
     fun digitalClock(horizontal: Range = FULL, vertical: Range = FULL, clock: WatchFaceDigitalClock.() -> Unit) {
-        val width = (horizontal.range * fullWidth).roundToInt()
-        val height = (vertical.range * fullHeight).roundToInt()
+        val (x, width) = horizontal * fullWidth
+        val (y, height) = vertical * fullHeight
+
         tag(
             "DigitalClock",
-            "height" to height,
-            "width" to width,
-            "x" to (horizontal.start * fullWidth).roundToInt(),
-            "y" to (vertical.start * fullHeight).roundToInt(),
+            "x" to x, "y" to y,
+            "width" to width, "height" to height,
         ) {
             WatchFaceDigitalClock(width, height)
                 .apply { clock() }
-                .build().let { builder.append(it) }
+                .add()
         }
     }
 }
 
 class WatchFaceDigitalClock(val fullWidth: Int, val fullHeight: Int) : Generator() {
     fun timeText(horizontal: Range = FULL, vertical: Range = FULL, color: Color? = null, format: () -> String) {
-        val height = (vertical.range * fullHeight).roundToInt()
+        val (x, width) = horizontal * fullWidth
+        val (y, height) = vertical * fullHeight
+
         tag(
             "TimeText",
-            "height" to height,
-            "width" to (horizontal.range * fullWidth).roundToInt(),
-            "x" to (horizontal.start * fullWidth).roundToInt(),
-            "y" to (vertical.start * fullHeight).roundToInt(),
+            "x" to x, "y" to y,
+            "width" to width, "height" to height,
             "format" to format()
         ) {
             tag(
@@ -229,7 +236,7 @@ class WatchFaceCondition(val fullWidth: Int, val fullHeight: Int) : Generator() 
             tag("Compare", "expression" to expression.name) {
                 WatchFaceScene(fullWidth, fullHeight).apply {
                     expression.then(this) // what black magic is this...
-                }.build().let { builder.append(it) }
+                }.add()
             }
         }
 
@@ -239,12 +246,13 @@ class WatchFaceCondition(val fullWidth: Int, val fullHeight: Int) : Generator() 
 
 class PartDraw(val fullWidth: Int, val fullHeight: Int) : Generator() {
     fun roundRectangle(color: Color, horizontal: Range = FULL, vertical: Range = FULL, radiusX: Double = 0.5, radiusY: Double = 0.5) {
+        val (x, width) = horizontal * fullWidth
+        val (y, height) = vertical * fullHeight
+
         tag(
             "RoundRectangle",
-            "height" to (vertical.range * fullHeight).roundToInt(),
-            "width" to (horizontal.range * fullWidth).roundToInt(),
-            "x" to (horizontal.start * fullWidth).roundToInt(),
-            "y" to (vertical.start * fullHeight).roundToInt(),
+            "x" to x, "y" to y,
+            "width" to width, "height" to height,
             "cornerRadiusX" to (radiusX * horizontal.range * fullWidth).roundToInt(),
             "cornerRadiusY" to (radiusY * vertical.range * fullWidth).roundToInt(),
         ) {
@@ -260,7 +268,7 @@ class WatchFaceComplicationSlot(val fullWidth: Int, val fullHeight: Int) : Gener
         tag("Complication", "type" to type) {
             WatchFaceScene(fullWidth, fullHeight)
                 .apply { scene() }
-                .build().let { builder.append(it) }
+                .add()
         }
     }
 }
