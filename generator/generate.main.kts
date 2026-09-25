@@ -61,7 +61,7 @@ val content = WatchFace(height = 450, width = 450)
         horizontal = 0.1..0.5,
         vertical = 0.3..0.5,
     ) {
-        ofType("LONG_TEXT") {
+        ofType("SHORT_TEXT") {
             partImage(vertical = 0.2..0.8, horizontal = 0.0..0.3, image = "[COMPLICATION.MONOCHROMATIC_IMAGE]")
             partText(vertical = 0.3..0.7, horizontal = 0.3..1.0) {
                 expression("[COMPLICATION.TEXT]")
@@ -76,7 +76,7 @@ val content = WatchFace(height = 450, width = 450)
         horizontal = 0.1..0.5,
         vertical = 0.5..0.7,
     ) {
-        ofType("LONG_TEXT") {
+        ofType("SHORT_TEXT") {
             partImage(vertical = 0.2..0.8, horizontal = 0.0..0.3, image = "[COMPLICATION.MONOCHROMATIC_IMAGE]")
             partText(vertical = 0.3..0.7, horizontal = 0.3..1.0) {
                 expression("[COMPLICATION.TEXT]")

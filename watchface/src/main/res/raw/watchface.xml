@@ -66,9 +66,9 @@
 </Complication>
 </ComplicationSlot>
 <!-- Top shortcut -->
-<ComplicationSlot slotId="top_shortcut" name="Top shortcut" supportedTypes="EMPTY LONG_TEXT" x="45" y="135" width="180" height="90">
+<ComplicationSlot slotId="top_shortcut" name="Top shortcut" supportedTypes="EMPTY SHORT_TEXT" x="45" y="135" width="180" height="90">
 <BoundingBox x="0" y="0" width="180" height="90"/>
-<Complication type="LONG_TEXT">
+<Complication type="SHORT_TEXT">
 <PartImage x="0" y="18" width="54" height="54">
 <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]"/>
 </PartImage>
@@ -85,9 +85,9 @@
 </Complication>
 </ComplicationSlot>
 <!-- Bottom shortcut -->
-<ComplicationSlot slotId="bottom_shortcut" name="Bottom shortcut" supportedTypes="EMPTY LONG_TEXT" x="45" y="225" width="180" height="90">
+<ComplicationSlot slotId="bottom_shortcut" name="Bottom shortcut" supportedTypes="EMPTY SHORT_TEXT" x="45" y="225" width="180" height="90">
 <BoundingBox x="0" y="0" width="180" height="90"/>
-<Complication type="LONG_TEXT">
+<Complication type="SHORT_TEXT">
 <PartImage x="0" y="18" width="54" height="54">
 <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]"/>
 </PartImage>
