@@ -1,8 +1,10 @@
 [versions]
 agp = "9.4.0"
+jetbrainsKotlinJvm = "2.2.10"
 
 [libraries]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 

@@ -114,11 +114,11 @@
 <Group name="group_0" x="405" y="207" width="36" height="36">
 <Condition>
 <Expressions>
-<Expression name="expression_1">
+<Expression name="expression_0">
 <![CDATA[[UNREAD_NOTIFICATION_COUNT] > 0]]>
 </Expression>
 </Expressions>
-<Compare expression="expression_1">
+<Compare expression="expression_0">
 <PartDraw x="0" y="0" width="36" height="36">
 <RoundRectangle x="0" y="0" width="36" height="36" cornerRadiusX="18" cornerRadiusY="18">
 <Fill color="#ffffff"/>

@@ -1,15 +1,12 @@
-@file:Import("generator.kts")
+package com.trianguloy.definition
 
+
+import com.trianguloy.generator.WatchFace
 import java.awt.Color
-import java.io.File
 
 
 ///////////// Design ///////////////
-
-println("Generating")
-
-val content = WatchFace(height = 450, width = 450)
-{
+fun main() = WatchFace(height = 450, width = 450) {
     comment("Date 1")
     partText(
         vertical = 0.1..0.15,
@@ -117,8 +114,4 @@ val content = WatchFace(height = 450, width = 450)
         comment("Minutes")
         timeText(vertical = 0.45..1.0) { "mm" }
     }
-
 }
-
-File("../watchface/src/main/res/raw", "watchface.xml").writeText(content)
-println("Generated")

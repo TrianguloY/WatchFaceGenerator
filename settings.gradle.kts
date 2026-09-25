@@ -24,4 +24,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "TrianguloY watch face"
 include(":watchface")
- 
+include(":generator")
+include(":definition")
