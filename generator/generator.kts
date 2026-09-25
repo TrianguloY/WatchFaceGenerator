@@ -104,7 +104,24 @@ class WatchFaceScene(val fullWidth: Int, val fullHeight: Int) : Generator() {
         }.add()
     }
 
-    fun complication(id: String? = null, horizontal: Range = FULL, vertical: Range = FULL, types: WatchFaceComplicationSlot.() -> Unit) {
+    fun partImage(
+        horizontal: Range = FULL, vertical: Range = FULL, image: String
+    ) {
+        val (x, width) = horizontal * fullWidth
+        val (y, height) = vertical * fullHeight
+        tag(
+            "PartImage",
+            "x" to x, "y" to y,
+            "width" to width, "height" to height,
+        ) {
+            tag(
+                "Image",
+                "resource" to image
+            )
+        }
+    }
+
+    fun complication(id: String? = null, name: String? = null, horizontal: Range = FULL, vertical: Range = FULL, types: WatchFaceComplicationSlot.() -> Unit) {
         val (x, width) = horizontal * fullWidth
         val (y, height) = vertical * fullHeight
 
@@ -116,10 +133,16 @@ class WatchFaceScene(val fullWidth: Int, val fullHeight: Int) : Generator() {
         tag(
             "ComplicationSlot",
             "slotId" to slotId,
+            "name" to (name ?: "Slot $slotId"),
             "supportedTypes" to complicationSlot.types.joinToString(" "),
             "x" to x, "y" to y,
             "width" to width, "height" to height,
         ) {
+            tag(
+                "BoundingBox",
+                "x" to 0, "y" to 0,
+                "width" to width, "height" to height,
+            )
             complicationSlot.add()
         }
     }

@@ -6,7 +6,7 @@ import java.io.File
 
 ///////////// Design ///////////////
 
-print("Generating")
+println("Generating")
 
 val content = WatchFace(height = 450, width = 450)
 {
@@ -24,23 +24,62 @@ val content = WatchFace(height = 450, width = 450)
         "${expression("[MONTH_F]")} - ${expression("[DAY_OF_WEEK_F]")}"
     }
 
-    comment("Watch battery")
-    partText(
+    comment("Watch Battery")
+    complication(
+        id = "watch_battery",
+        name = "Watch battery",
         horizontal = 0.12..0.31,
         vertical = 0.21..0.26
     ) {
-        "⌚${expression("[BATTERY_PERCENT]")}%"
+        ofType("SHORT_TEXT") {
+            partImage(horizontal = 0.0..0.3, image = "[COMPLICATION.MONOCHROMATIC_IMAGE]")
+            partText(horizontal = 0.3..1.0) {
+                "${expression("[COMPLICATION.TEXT]")}%"
+            }
+        }
     }
 
     comment("Phone Battery")
     complication(
-        id = "1",
+        id = "phone_battery",
+        name = "Phone battery",
         horizontal = 0.31..0.5,
         vertical = 0.21..0.26,
     ) {
         ofType("SHORT_TEXT") {
-            partText {
-                "📱 ${expression("[COMPLICATION.TEXT]")}%"
+            partImage(horizontal = 0.0..0.3, image = "[COMPLICATION.MONOCHROMATIC_IMAGE]")
+            partText(horizontal = 0.3..1.0) {
+                "${expression("[COMPLICATION.TEXT]")}%"
+            }
+        }
+    }
+
+    comment("Top shortcut")
+    complication(
+        id = "top_shortcut",
+        name = "Top shortcut",
+        horizontal = 0.1..0.5,
+        vertical = 0.3..0.5,
+    ) {
+        ofType("LONG_TEXT") {
+            partImage(vertical = 0.2..0.8, horizontal = 0.0..0.3, image = "[COMPLICATION.MONOCHROMATIC_IMAGE]")
+            partText(vertical = 0.3..0.7, horizontal = 0.3..1.0) {
+                expression("[COMPLICATION.TEXT]")
+            }
+        }
+    }
+
+    comment("Bottom shortcut")
+    complication(
+        id = "bottom_shortcut",
+        name = "Bottom shortcut",
+        horizontal = 0.1..0.5,
+        vertical = 0.5..0.7,
+    ) {
+        ofType("LONG_TEXT") {
+            partImage(vertical = 0.2..0.8, horizontal = 0.0..0.3, image = "[COMPLICATION.MONOCHROMATIC_IMAGE]")
+            partText(vertical = 0.3..0.7, horizontal = 0.3..1.0) {
+                expression("[COMPLICATION.TEXT]")
             }
         }
     }
@@ -56,12 +95,12 @@ val content = WatchFace(height = 450, width = 450)
         vertical = 0.46..0.54
     ) {
         condition {
-            expression("[UNREAD_NOTIFICATION_COUNT] >= 0") {
+            expression("[UNREAD_NOTIFICATION_COUNT] > 0") {
                 partDraw {
                     roundRectangle(Color.WHITE)
                 }
                 partText(color = Color.BLACK) {
-                    expression("[UNREAD_NOTIFICATION_COUNT]+1")
+                    expression("[UNREAD_NOTIFICATION_COUNT]")
                 }
             }
         }
@@ -82,4 +121,4 @@ val content = WatchFace(height = 450, width = 450)
 }
 
 File("../watchface/src/main/res/raw", "watchface.xml").writeText(content)
-print("Generated")
+println("Generated")
