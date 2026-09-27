@@ -1,7 +1,9 @@
 package com.trianguloy.definition
 
 import com.trianguloy.generator.wff.Metadata
+import com.trianguloy.generator.wff.Scene
 import com.trianguloy.generator.wff.WatchFace
+import com.trianguloy.generator.xml._Comment
 import com.trianguloy.generator.xml._Tag
 
 fun main() {
@@ -28,7 +30,11 @@ fun xml() {
 
 fun wff() {
     val watchface = WatchFace(100, 100).apply {
+        this + _Comment("A comment")
         this + Metadata.ClockType(Metadata.ClockTypeValues.DIGITAL)
+        this + Scene().apply {
+            this + _Comment("To be defined")
+        }
     }
 
     println(watchface)

@@ -6,7 +6,7 @@
     <Metadata
         key="CLOCK_TYPE"
         value="DIGITAL" />
-    <Scene>
+    <Scene backgroundColor="">
         <!-- Date 1 -->
         <PartText
             height="22"
