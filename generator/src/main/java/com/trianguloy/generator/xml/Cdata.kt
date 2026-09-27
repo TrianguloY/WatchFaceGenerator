@@ -1,5 +1,5 @@
 package com.trianguloy.generator.xml
 
-class _Cdata(val raw: String) : _Element {
+internal class Cdata(val raw: String) : Element {
     override fun toString() = "<![CDATA[$raw]]>"
 }

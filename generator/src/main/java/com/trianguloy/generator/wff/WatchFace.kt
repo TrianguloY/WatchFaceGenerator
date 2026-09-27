@@ -1,8 +1,9 @@
 package com.trianguloy.generator.wff
 
 import com.trianguloy.generator.wff.WatchFace.ClipShape.CIRCLE
+import com.trianguloy.generator.wff.helpers.Size
 
-class WatchFace(height: Int, width: Int) : _Component("WatchFace") {
+class WatchFace(width: Int, height: Int) : Size("WatchFace", width, height) {
 
     enum class ClipShape {
         NONE,
@@ -10,9 +11,7 @@ class WatchFace(height: Int, width: Int) : _Component("WatchFace") {
         RECTANGLE,
     }
 
-    var clipShape by _delegate(CIRCLE, { ClipShape.valueOf(it) }, { it.name })
-    var height by _delegate(height)
-    var width by _delegate(width)
+    var clipShape by delegate(CIRCLE, { ClipShape.valueOf(it) }, { it.name })
 
 
     operator fun plus(metadata: Metadata<*>) = apply { super + metadata }

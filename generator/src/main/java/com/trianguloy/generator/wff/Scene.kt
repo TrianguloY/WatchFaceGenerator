@@ -1,7 +1,11 @@
 package com.trianguloy.generator.wff
 
+import com.trianguloy.generator.wff.helpers.Component
 import java.awt.Color
 
-class Scene : _Component("Scene") {
-    var backgroundColor by _delegate(null as Color?)
+class Scene : Component("Scene") {
+    var backgroundColor by delegate(null as Color?)
+
+
+    operator fun plus(partText: PartText) = apply { super + partText }
 }

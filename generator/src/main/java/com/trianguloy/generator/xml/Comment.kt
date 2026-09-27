@@ -1,6 +1,6 @@
 package com.trianguloy.generator.xml
 
 
-class _Comment(val message: String) : _Element {
+class Comment(val message: String) : Element {
     override fun toString() = "<!-- $message -->"
 }
