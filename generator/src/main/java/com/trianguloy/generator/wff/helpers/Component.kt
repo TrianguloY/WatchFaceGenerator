@@ -48,9 +48,12 @@ open class Component(name: String) : Element {
     internal fun delegate(default: Color) = delegate(default, { Color.decode(it) }, { "#%02x%02x%02x".format(it.red, it.green, it.blue) })
     internal fun delegate(default: Color? = null) = delegate<Color>(default, { Color.decode(it) }, { "#%02x%02x%02x".format(it.red, it.green, it.blue) })
     internal fun <E : Enum<E>> delegate(default: E, clazz: Class<E>) = delegate(default, { v -> clazz.enumConstants.firstOrNull { it.name == v } ?: default }, { it.name })
+    internal fun <E : Enum<E>> delegate(default: E?, clazz: Class<E>) = delegate(default, { v -> clazz.enumConstants.firstOrNull { it.name == v }!!/*throw*/ }, { it.name })
 
-    internal operator fun plus(element: Component) = apply { tag + element }
-    operator fun plus(comment: Comment) = apply { tag + comment }
+    // not as operator to avoid recursion problems
+    internal fun add(element: Element) = tag.run { +element }
 
+
+    operator fun Comment.unaryPlus() = add(this)
     override fun toString() = tag.toString()
 }

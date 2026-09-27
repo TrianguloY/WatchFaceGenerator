@@ -5,7 +5,9 @@ internal open class Tag(val name: String) : Element {
     internal val content = mutableListOf<Element>()
 
     internal operator fun set(key: String, value: Any) = properties.set(key, value.toString())
-    internal operator fun plus(element: Element) = apply { content += element }
+    internal operator fun Element.unaryPlus() {
+        this@Tag.content += this
+    }
 
     override fun toString() = buildString {
 

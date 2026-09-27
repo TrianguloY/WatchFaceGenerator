@@ -14,6 +14,7 @@ class WatchFace(width: Int, height: Int) : Size("WatchFace", width, height) {
     var clipShape by delegate(CIRCLE, { ClipShape.valueOf(it) }, { it.name })
 
 
-    operator fun plus(metadata: Metadata<*>) = apply { super + metadata }
-    operator fun plus(scene: Scene) = apply { super + scene }
+    operator fun Metadata<*>.unaryPlus() = super.add(this)
+
+    operator fun Scene.unaryPlus() = super.add(this)
 }

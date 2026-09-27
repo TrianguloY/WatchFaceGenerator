@@ -7,5 +7,5 @@ class Scene : Component("Scene") {
     var backgroundColor by delegate(null as Color?)
 
 
-    operator fun plus(partText: PartText) = apply { super + partText }
+    operator fun PartText.unaryPlus() = super.add(this)
 }
