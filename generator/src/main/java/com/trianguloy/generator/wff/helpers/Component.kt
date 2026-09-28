@@ -44,6 +44,7 @@ open class Component(name: String) : Element {
 
 
     internal fun delegate(default: String) = delegate(default, { it }, { it })
+    internal fun delegate(default: String?) = delegate(default, { it }, { it })
     internal fun delegate(default: Int) = delegate(default, { it.toInt() }, { it.toString() })
     internal fun delegate(default: Color) = delegate(default, { Color.decode(it) }, { "#%02x%02x%02x".format(it.red, it.green, it.blue) })
     internal fun delegate(default: Color? = null) = delegate<Color>(default, { Color.decode(it) }, { "#%02x%02x%02x".format(it.red, it.green, it.blue) })
