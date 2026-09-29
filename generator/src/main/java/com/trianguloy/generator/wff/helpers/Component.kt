@@ -1,11 +1,13 @@
 package com.trianguloy.generator.wff.helpers
 
+import com.trianguloy.generator.wff.Variant
 import com.trianguloy.generator.xml.Comment
 import com.trianguloy.generator.xml.Element
 import com.trianguloy.generator.xml.Tag
 import java.awt.Color
 import kotlin.properties.PropertyDelegateProvider
 import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 
 open class Component(name: String) : Element {
@@ -46,15 +48,20 @@ open class Component(name: String) : Element {
     internal fun delegate(default: String) = delegate(default, { it }, { it })
     internal fun delegate(default: String?) = delegate(default, { it }, { it })
     internal fun delegate(default: Int) = delegate(default, { it.toInt() }, { it.toString() })
+    internal fun delegate(default: Int?) = delegate(default, { it.toInt() }, { it.toString() })
     internal fun delegate(default: Color) = delegate(default, { Color.decode(it) }, { "#%02x%02x%02x".format(it.red, it.green, it.blue) })
     internal fun delegate(default: Color? = null) = delegate<Color>(default, { Color.decode(it) }, { "#%02x%02x%02x".format(it.red, it.green, it.blue) })
-    internal fun <E : Enum<E>> delegate(default: E, clazz: Class<E>) = delegate(default, { v -> clazz.enumConstants.firstOrNull { it.name == v } ?: default }, { it.name })
-    internal fun <E : Enum<E>> delegate(default: E?, clazz: Class<E>) = delegate(default, { v -> clazz.enumConstants.firstOrNull { it.name == v }!!/*throw*/ }, { it.name })
+    internal fun <E : Enum<E>> delegate(default: E, clazz: KClass<E>) = delegate(default, { v -> clazz.java.enumConstants.firstOrNull { it.name == v } ?: default }, { it.name })
+    internal fun <E : Enum<E>> delegate(default: E?, clazz: KClass<E>) = delegate(default, { v -> clazz.java.enumConstants.firstOrNull { it.name == v }!!/*throw*/ }, { it.name })
 
     // not as operator to avoid recursion problems
     internal fun add(element: Element) = tag.run { +element }
 
 
-    operator fun Comment.unaryPlus() = add(this)
+    // always allowed
+    operator fun Comment.unaryPlus() = this@Component.add(this)
+
+    // may not always be allowed, but for now just allow
+    operator fun Variant.unaryPlus() = this@Component.add(this)
     override fun toString() = tag.toString()
 }

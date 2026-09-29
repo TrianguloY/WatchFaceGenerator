@@ -6,7 +6,7 @@ import com.trianguloy.generator.wff.helpers.Size
 
 private var nextSlotId = 0
 
-fun <S : Size> S.ComplicationSlot() = ComplicationSlot(this)
+fun Size.ComplicationSlot() = ComplicationSlot(this)
 class ComplicationSlot internal constructor(parent: Size) : Area("ComplicationSlot", parent) {
     var name by delegate(null as String?)
     var slotId by delegate("slot_${nextSlotId++}")

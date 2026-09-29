@@ -9,5 +9,6 @@ class Scene : Component("Scene") {
 
     operator fun PartText.unaryPlus() = super.add(this)
     operator fun PartImage.unaryPlus() = super.add(this)
+    operator fun PartDraw.unaryPlus() = super.add(this)
     operator fun ComplicationSlot.unaryPlus() = super.add(this)
 }

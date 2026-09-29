@@ -10,7 +10,7 @@ sealed class Metadata<V> private constructor(key: Key, customDelegate: Metadata<
 
     class ClockType(value: ClockTypeValues) : Metadata<ClockTypeValues>(
         CLOCK_TYPE,
-        { delegate(value, ClockTypeValues::class.java) })
+        { delegate(value, ClockTypeValues::class) })
 
     enum class ClockTypeValues {
         DIGITAL,
@@ -40,6 +40,6 @@ sealed class Metadata<V> private constructor(key: Key, customDelegate: Metadata<
         STEP_GOAL,
     }
 
-    internal var key by delegate(key, Key::class.java)
+    internal var key by delegate(key, Key::class)
     var value by customDelegate()
 }
