@@ -6,5 +6,5 @@ import com.trianguloy.generator.wff.helpers.Size
 
 fun Size.SimpleImage(partImageInit: PartImage.() -> Unit = {}, resource: String) = PartImage().apply {
     partImageInit()
-    Image(resource)
+    +Image(resource)
 }

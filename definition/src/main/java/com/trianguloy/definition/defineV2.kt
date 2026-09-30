@@ -3,6 +3,7 @@ package com.trianguloy.definition
 import com.trianguloy.generator.custom.Elipse
 import com.trianguloy.generator.custom.SimpleCondition
 import com.trianguloy.generator.custom.SimpleDraw
+import com.trianguloy.generator.custom.SimpleGroup
 import com.trianguloy.generator.custom.SimpleImage
 import com.trianguloy.generator.custom.SimpleTimeText
 import com.trianguloy.generator.custom.ambient
@@ -12,7 +13,6 @@ import com.trianguloy.generator.custom.pv
 import com.trianguloy.generator.custom.toProject
 import com.trianguloy.generator.custom.vertical
 import com.trianguloy.generator.wff.ComplicationType.SHORT_TEXT
-import com.trianguloy.generator.wff.Group
 import com.trianguloy.generator.wff.TimeText.Format.HOUR
 import com.trianguloy.generator.wff.TimeText.Format.MINUTES
 import com.trianguloy.generator.wff.helpers.DigitalWatchface
@@ -106,12 +106,11 @@ fun main() {
             }
 
             +Comment("Notification counter")
-            +Group().apply {
-                horizontal = ph(0.9) to ph(0.98)
-                vertical = pv(0.46) to pv(0.54)
-
-                +SimpleCondition {
-                    generateIf("[UNREAD_NOTIFICATION_COUNT] > 0") {
+            +SimpleCondition {
+                generateIf("[UNREAD_NOTIFICATION_COUNT] >= 0") {
+                    +SimpleGroup {
+                        horizontal = ph(0.9) to ph(0.98)
+                        vertical = pv(0.46) to pv(0.54)
                         +SimpleDraw {
                             +Elipse {
                                 color = WHITE

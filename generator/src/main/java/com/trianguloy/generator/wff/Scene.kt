@@ -13,4 +13,5 @@ class Scene : Component("Scene") {
     operator fun ComplicationSlot.unaryPlus() = super.add(this)
     operator fun Group.unaryPlus() = super.add(this)
     operator fun DigitalClock.unaryPlus() = super.add(this)
+    operator fun Condition.unaryPlus() = super.add(this)
 }

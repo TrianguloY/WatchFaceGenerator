@@ -15,11 +15,10 @@
             android:value="4" />
 
         <!-- Optionally add details about the publisher. -->
-        <!--
-           <property
-          android:name="com.google.wear.watchface.format.publisher"
-          android:value="YourPublisherNameHere" />
-        -->
+        <property
+            android:name="com.google.wear.watchface.format.publisher"
+            android:value="TrianguloY" />
+
     </application>
 
 </manifest>
