@@ -1,7 +1,7 @@
 package com.trianguloy.definition
 
-import com.trianguloy.generator.custom.Elipse
-import com.trianguloy.generator.custom.Rectangle
+import com.trianguloy.generator.custom.ElipseBorder
+import com.trianguloy.generator.custom.ElipseFill
 import com.trianguloy.generator.custom.SimpleCondition
 import com.trianguloy.generator.custom.SimpleDraw
 import com.trianguloy.generator.custom.SimpleGroup
@@ -94,15 +94,23 @@ fun main() {
                 alpha = 0
                 ambient(::alpha, 128)
 
-                +Elipse { color = BLACK }
+                +ElipseFill { color = BLACK }
             }
+
+//            +Comment("Ambient indicator")
+//            +SimpleDraw {
+//                ambient(::alpha, 0)
+//                horizontal = ph(1.0) - 4 to ph(1.0)
+//                vertical = pv(0.5) - 2 to pv(0.5) + 2
+//                +RectangleFill { }
+//            }
 
             +Comment("Ambient indicator")
             +SimpleDraw {
                 ambient(::alpha, 0)
-                horizontal = ph(1.0) - 4 to ph(1.0)
-                vertical = pv(0.5) - 2 to pv(0.5) + 2
-                +Rectangle { }
+                vertical = 1 to height - 1
+                horizontal = 1 to width - 1
+                +ElipseBorder { dashIntervals = listOf(3.0, 12.0) }
             }
 
             +Comment("Notification counter")
@@ -112,7 +120,7 @@ fun main() {
                         horizontal = ph(0.9) to ph(0.98)
                         vertical = pv(0.46) to pv(0.54)
                         +SimpleDraw {
-                            +Elipse {
+                            +ElipseFill {
                                 color = WHITE
                             }
                         }

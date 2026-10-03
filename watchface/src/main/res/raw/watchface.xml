@@ -307,22 +307,25 @@
     </PartDraw>
     <!-- Ambient indicator -->
     <PartDraw
-        height="4"
-        width="4"
-        x="446"
-        y="223">
+        height="448"
+        width="448"
+        x="1"
+        y="1">
       <Variant
           mode="AMBIENT"
           target="alpha"
           value="0" />
       <RoundRectangle
-          height="4"
-          width="4"
+          height="448"
+          width="448"
           x="0"
           y="0"
-          cornerRadiusX="10"
-          cornerRadiusY="10">
-        <Fill color="#ffffff" />
+          cornerRadiusX="224"
+          cornerRadiusY="224">
+        <Stroke
+            color="#ffffff"
+            thickness="1"
+            dashIntervals="3.0 12.0" />
       </RoundRectangle>
     </PartDraw>
     <!-- Notification counter -->

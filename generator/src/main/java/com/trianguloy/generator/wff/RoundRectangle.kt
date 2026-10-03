@@ -9,4 +9,5 @@ class RoundRectangle internal constructor(parent: Size) : Area("RoundRectangle",
     var cornerRadiusY by delegate(10)
 
     operator fun Fill.unaryPlus() = super.add(this)
+    operator fun Stroke.unaryPlus() = super.add(this)
 }

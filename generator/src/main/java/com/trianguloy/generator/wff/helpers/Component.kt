@@ -53,6 +53,8 @@ open class Component(name: String) : Element {
     internal fun delegate(default: Color? = null) = delegate<Color>(default, { Color.decode(it) }, { "#%02x%02x%02x".format(it.red, it.green, it.blue) })
     internal fun <E : Enum<E>> delegate(default: E, clazz: KClass<E>) = delegate(default, { v -> clazz.java.enumConstants.firstOrNull { it.name == v } ?: default }, { it.name })
     internal fun <E : Enum<E>> delegate(default: E?, clazz: KClass<E>) = delegate(default, { v -> clazz.java.enumConstants.firstOrNull { it.name == v }!!/*throw*/ }, { it.name })
+    internal fun delegate(default: List<Double>?) = delegate(default, { v -> v.split(" ").map { it.toDouble() } }, { it.joinToString(" ") })
+
 
     // not as operator to avoid recursion problems
     internal fun add(element: Element) = tag.run { +element }
