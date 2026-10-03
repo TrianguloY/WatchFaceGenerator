@@ -1,11 +1,11 @@
-package com.trianguloy.generator.wff.helpers
+package com.trianguloy.generator.custom
 
-import com.trianguloy.generator.REPLACEMENT_VALUE_DO_NOT_USE
 import com.trianguloy.generator.wff.Font
 import com.trianguloy.generator.wff.Parameter
 import com.trianguloy.generator.wff.PartText
 import com.trianguloy.generator.wff.Template
 import com.trianguloy.generator.wff.Text
+import com.trianguloy.generator.wff.helpers.Size
 import com.trianguloy.generator.xml.Cdata
 
 fun Size.SimpleText(

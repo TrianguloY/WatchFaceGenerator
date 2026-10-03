@@ -1,10 +1,12 @@
 package com.trianguloy.definition
 
 import com.trianguloy.generator.custom.Elipse
+import com.trianguloy.generator.custom.Rectangle
 import com.trianguloy.generator.custom.SimpleCondition
 import com.trianguloy.generator.custom.SimpleDraw
 import com.trianguloy.generator.custom.SimpleGroup
 import com.trianguloy.generator.custom.SimpleImage
+import com.trianguloy.generator.custom.SimpleText
 import com.trianguloy.generator.custom.SimpleTimeText
 import com.trianguloy.generator.custom.ambient
 import com.trianguloy.generator.custom.horizontal
@@ -17,7 +19,6 @@ import com.trianguloy.generator.wff.TimeText.Format.HOUR
 import com.trianguloy.generator.wff.TimeText.Format.MINUTES
 import com.trianguloy.generator.wff.helpers.DigitalWatchface
 import com.trianguloy.generator.wff.helpers.SimpleComplication
-import com.trianguloy.generator.wff.helpers.SimpleText
 import com.trianguloy.generator.xml.Comment
 import java.awt.Color.BLACK
 import java.awt.Color.WHITE
@@ -103,9 +104,17 @@ fun main() {
                 +Elipse { color = BLACK }
             }
 
+            +Comment("Ambient indicator")
+            +SimpleDraw {
+                ambient(::alpha, 0)
+                horizontal = ph(1.0) - 4 to ph(1.0)
+                vertical = pv(0.5) - 2 to pv(0.5) + 2
+                +Rectangle { }
+            }
+
             +Comment("Notification counter")
             +SimpleCondition {
-                generateIf("[UNREAD_NOTIFICATION_COUNT] >= 0") {
+                generateIf("[UNREAD_NOTIFICATION_COUNT] > 0") {
                     +SimpleGroup {
                         horizontal = ph(0.9) to ph(0.98)
                         vertical = pv(0.46) to pv(0.54)
