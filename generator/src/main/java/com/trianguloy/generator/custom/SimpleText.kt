@@ -29,6 +29,11 @@ fun Size.SimpleText(
                 simpleText.expressions.forEach {
                     +Parameter(it)
                 }
+
+                simpleText.lines?.let {
+                    maxLines = it
+                    size = parentHeight / it
+                }
             }
         }
     }
@@ -38,6 +43,8 @@ internal const val REPLACEMENT_VALUE_DO_NOT_USE = "$!@#@!$"
 
 class SimpleText internal constructor() {
     internal val expressions = mutableListOf<String>()
+
+    var lines: Int? = null
 
     fun expression(expression: String) = REPLACEMENT_VALUE_DO_NOT_USE.also {
         expressions.add(expression)

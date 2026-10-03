@@ -124,37 +124,37 @@
         </PartText>
       </Complication>
     </ComplicationSlot>
-    <!-- Top shortcut -->
+    <!-- Shortcut 1 -->
     <ComplicationSlot
-        height="90"
+        height="52"
         width="180"
         x="45"
-        y="135"
-        slotId="top_shortcut"
+        y="137"
+        slotId="shortcut_1"
         supportedTypes="EMPTY SHORT_TEXT"
-        name="Top shortcut">
+        name="Shortcut 1">
       <BoundingBox
-          height="90"
+          height="52"
           width="180"
           x="0"
           y="0" />
       <Complication type="SHORT_TEXT">
         <PartImage
-            height="54"
-            width="54"
+            height="52"
+            width="52"
             x="0"
-            y="18">
+            y="0">
           <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" />
         </PartImage>
         <PartText
-            height="36"
-            width="126"
-            x="54"
-            y="27">
-          <Text>
+            height="52"
+            width="128"
+            x="52"
+            y="0">
+          <Text maxLines="2">
             <Font
                 family="SYNC_TO_DEVICE"
-                size="36">
+                size="26">
               <Template>
                 <![CDATA[%s]]>
                 <Parameter expression="[COMPLICATION.TEXT]" />
@@ -164,37 +164,117 @@
         </PartText>
       </Complication>
     </ComplicationSlot>
-    <!-- Bottom shortcut -->
+    <!-- Shortcut 2 -->
     <ComplicationSlot
-        height="90"
+        height="52"
         width="180"
         x="45"
-        y="225"
-        slotId="bottom_shortcut"
+        y="193"
+        slotId="shortcut_2"
         supportedTypes="EMPTY SHORT_TEXT"
-        name="Bottom shortcut">
+        name="Shortcut 2">
       <BoundingBox
-          height="90"
+          height="52"
           width="180"
           x="0"
           y="0" />
       <Complication type="SHORT_TEXT">
         <PartImage
-            height="54"
-            width="54"
+            height="52"
+            width="52"
             x="0"
-            y="18">
+            y="0">
           <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" />
         </PartImage>
         <PartText
-            height="36"
-            width="126"
-            x="54"
-            y="27">
-          <Text>
+            height="52"
+            width="128"
+            x="52"
+            y="0">
+          <Text maxLines="2">
             <Font
                 family="SYNC_TO_DEVICE"
-                size="36">
+                size="26">
+              <Template>
+                <![CDATA[%s]]>
+                <Parameter expression="[COMPLICATION.TEXT]" />
+              </Template>
+            </Font>
+          </Text>
+        </PartText>
+      </Complication>
+    </ComplicationSlot>
+    <!-- Shortcut 3 -->
+    <ComplicationSlot
+        height="52"
+        width="180"
+        x="45"
+        y="249"
+        slotId="shortcut_3"
+        supportedTypes="EMPTY SHORT_TEXT"
+        name="Shortcut 3">
+      <BoundingBox
+          height="52"
+          width="180"
+          x="0"
+          y="0" />
+      <Complication type="SHORT_TEXT">
+        <PartImage
+            height="52"
+            width="52"
+            x="0"
+            y="0">
+          <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" />
+        </PartImage>
+        <PartText
+            height="52"
+            width="128"
+            x="52"
+            y="0">
+          <Text maxLines="2">
+            <Font
+                family="SYNC_TO_DEVICE"
+                size="26">
+              <Template>
+                <![CDATA[%s]]>
+                <Parameter expression="[COMPLICATION.TEXT]" />
+              </Template>
+            </Font>
+          </Text>
+        </PartText>
+      </Complication>
+    </ComplicationSlot>
+    <!-- Shortcut 4 -->
+    <ComplicationSlot
+        height="52"
+        width="180"
+        x="45"
+        y="305"
+        slotId="shortcut_4"
+        supportedTypes="EMPTY SHORT_TEXT"
+        name="Shortcut 4">
+      <BoundingBox
+          height="52"
+          width="180"
+          x="0"
+          y="0" />
+      <Complication type="SHORT_TEXT">
+        <PartImage
+            height="52"
+            width="52"
+            x="0"
+            y="0">
+          <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" />
+        </PartImage>
+        <PartText
+            height="52"
+            width="128"
+            x="52"
+            y="0">
+          <Text maxLines="2">
+            <Font
+                family="SYNC_TO_DEVICE"
+                size="26">
               <Template>
                 <![CDATA[%s]]>
                 <Parameter expression="[COMPLICATION.TEXT]" />

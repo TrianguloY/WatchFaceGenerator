@@ -66,32 +66,25 @@ fun main() {
                 }
             }
 
-            +Comment("Top shortcut")
-            +SimpleComplication({
-                slotId = "top_shortcut"
-                name = "Top shortcut"
-                horizontal = ph(0.1) to ph(0.5)
-                vertical = pv(0.3) to pv(0.5)
-            }) {
-                forType(SHORT_TEXT) {
-                    +SimpleImage({ vertical = pv(0.2) to pv(0.8); horizontal = ph(0.0) to ph(0.3) }, "[COMPLICATION.MONOCHROMATIC_IMAGE]")
-                    +SimpleText({ vertical = pv(0.3) to pv(0.7); horizontal = ph(0.3) to ph(1.0) }) {
-                        expression("[COMPLICATION.TEXT]")
-                    }
-                }
-            }
-
-            +Comment("Bottom shortcut")
-            +SimpleComplication({
-                slotId = "bottom_shortcut"
-                name = "Bottom shortcut"
-                horizontal = ph(0.1) to ph(0.5)
-                vertical = pv(0.5) to pv(0.7)
-            }) {
-                forType(SHORT_TEXT) {
-                    +SimpleImage({ vertical = pv(0.2) to pv(0.8); horizontal = ph(0.0) to ph(0.3) }, "[COMPLICATION.MONOCHROMATIC_IMAGE]")
-                    +SimpleText({ vertical = pv(0.3) to pv(0.7); horizontal = ph(0.3) to ph(1.0) }) {
-                        expression("[COMPLICATION.TEXT]")
+            val shortcutsFrom = pv(0.3)
+            val shortcutsTo = pv(0.8)
+            val n = 4
+            val pad = 2
+            for (i in 1..n) {
+                val h = (shortcutsTo - shortcutsFrom) / n
+                +Comment("Shortcut $i")
+                +SimpleComplication({
+                    slotId = "shortcut_$i"
+                    name = "Shortcut $i"
+                    horizontal = ph(0.1) to ph(0.5)
+                    vertical = shortcutsFrom + h * (i - 1) + pad to shortcutsFrom + h * i - pad
+                }) {
+                    forType(SHORT_TEXT) {
+                        +SimpleImage({ horizontal = 0 to height }, "[COMPLICATION.MONOCHROMATIC_IMAGE]")
+                        +SimpleText({ horizontal = height to ph(1.0) }) {
+                            lines = 2
+                            expression("[COMPLICATION.TEXT]")
+                        }
                     }
                 }
             }
