@@ -14,6 +14,7 @@ import com.trianguloy.generator.custom.ph
 import com.trianguloy.generator.custom.pv
 import com.trianguloy.generator.custom.toProject
 import com.trianguloy.generator.custom.vertical
+import com.trianguloy.generator.wff.ComplicationType.LONG_TEXT
 import com.trianguloy.generator.wff.ComplicationType.SHORT_TEXT
 import com.trianguloy.generator.wff.TimeText.Format.HOUR
 import com.trianguloy.generator.wff.TimeText.Format.MINUTES
@@ -79,11 +80,36 @@ fun main() {
                     horizontal = ph(0.1) to ph(0.5)
                     vertical = shortcutsFrom + h * (i - 1) + pad to shortcutsFrom + h * i - pad
                 }) {
-                    forType(SHORT_TEXT) {
-                        +SimpleImage({ horizontal = 0 to height }, "[COMPLICATION.MONOCHROMATIC_IMAGE]")
-                        +SimpleText({ horizontal = height to ph(1.0) }) {
-                            lines = 2
-                            expression("[COMPLICATION.TEXT]")
+                    for (type in listOf(LONG_TEXT, SHORT_TEXT)) {
+                        forType(type) {
+                            +SimpleImage({ horizontal = 0 to height }, "[COMPLICATION.MONOCHROMATIC_IMAGE]")
+                            +SimpleCondition {
+                                generateIf("textLength([COMPLICATION.TITLE]) == 0") {
+                                    // only text
+                                    +SimpleText({
+                                        horizontal = height to ph(1.0)
+                                    }) {
+//                                        if(type == LONG_TEXT) lines = 2
+                                        expression("[COMPLICATION.TEXT]")
+                                    }
+                                }
+                                elseGenerate {
+                                    // title and text
+                                    +SimpleText({
+                                        horizontal = height to ph(1.0)
+                                        vertical = 0 to pv(0.3)
+                                    }) {
+                                        expression("[COMPLICATION.TITLE]")
+                                    }
+                                    +SimpleText({
+                                        horizontal = height to ph(1.0)
+                                        vertical = pv(0.3) to height
+                                    }) {
+                                        if (type == LONG_TEXT) lines = 2
+                                        expression("[COMPLICATION.TEXT]")
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -96,14 +122,6 @@ fun main() {
 
                 +ElipseFill { color = BLACK }
             }
-
-//            +Comment("Ambient indicator")
-//            +SimpleDraw {
-//                ambient(::alpha, 0)
-//                horizontal = ph(1.0) - 4 to ph(1.0)
-//                vertical = pv(0.5) - 2 to pv(0.5) + 2
-//                +RectangleFill { }
-//            }
 
             +Comment("Ambient indicator")
             +SimpleDraw {

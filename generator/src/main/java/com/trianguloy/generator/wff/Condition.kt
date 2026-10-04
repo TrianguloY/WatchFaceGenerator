@@ -6,4 +6,5 @@ class Condition : Component("Condition") {
 
     operator fun Expressions.unaryPlus() = super.add(this)
     operator fun Compare.unaryPlus() = super.add(this)
+    operator fun Default.unaryPlus() = super.add(this)
 }

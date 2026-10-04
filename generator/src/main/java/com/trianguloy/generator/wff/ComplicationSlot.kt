@@ -21,4 +21,5 @@ class ComplicationSlot internal constructor(parent: Size) : Area("ComplicationSl
 enum class ComplicationType {
     EMPTY,
     SHORT_TEXT,
+    LONG_TEXT,
 }

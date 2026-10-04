@@ -51,7 +51,7 @@
         x="54"
         y="95"
         slotId="watch_battery"
-        supportedTypes="EMPTY SHORT_TEXT"
+        supportedTypes="SHORT_TEXT EMPTY"
         name="Watch battery">
       <BoundingBox
           height="22"
@@ -91,7 +91,7 @@
         x="140"
         y="95"
         slotId="phone_battery"
-        supportedTypes="EMPTY SHORT_TEXT"
+        supportedTypes="SHORT_TEXT EMPTY"
         name="Phone battery">
       <BoundingBox
           height="22"
@@ -131,13 +131,81 @@
         x="45"
         y="137"
         slotId="shortcut_1"
-        supportedTypes="EMPTY SHORT_TEXT"
+        supportedTypes="LONG_TEXT SHORT_TEXT EMPTY"
         name="Shortcut 1">
       <BoundingBox
           height="52"
           width="180"
           x="0"
           y="0" />
+      <Complication type="LONG_TEXT">
+        <PartImage
+            height="52"
+            width="52"
+            x="0"
+            y="0">
+          <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" />
+        </PartImage>
+        <Condition>
+          <Expressions>
+            <Expression name="expression_0">
+              <![CDATA[textLength([COMPLICATION.TITLE]) == 0]]>
+            </Expression>
+          </Expressions>
+          <Compare expression="expression_0">
+            <PartText
+                height="52"
+                width="128"
+                x="52"
+                y="0">
+              <Text>
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="52">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TEXT]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+          </Compare>
+          <Default>
+            <PartText
+                height="16"
+                width="128"
+                x="52"
+                y="0">
+              <Text>
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="16">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TITLE]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+            <PartText
+                height="36"
+                width="128"
+                x="52"
+                y="16">
+              <Text maxLines="2">
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="26">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TEXT]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+          </Default>
+        </Condition>
+      </Complication>
       <Complication type="SHORT_TEXT">
         <PartImage
             height="52"
@@ -146,22 +214,65 @@
             y="0">
           <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" />
         </PartImage>
-        <PartText
-            height="52"
-            width="128"
-            x="52"
-            y="0">
-          <Text maxLines="2">
-            <Font
-                family="SYNC_TO_DEVICE"
-                size="26">
-              <Template>
-                <![CDATA[%s]]>
-                <Parameter expression="[COMPLICATION.TEXT]" />
-              </Template>
-            </Font>
-          </Text>
-        </PartText>
+        <Condition>
+          <Expressions>
+            <Expression name="expression_1">
+              <![CDATA[textLength([COMPLICATION.TITLE]) == 0]]>
+            </Expression>
+          </Expressions>
+          <Compare expression="expression_1">
+            <PartText
+                height="52"
+                width="128"
+                x="52"
+                y="0">
+              <Text>
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="52">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TEXT]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+          </Compare>
+          <Default>
+            <PartText
+                height="16"
+                width="128"
+                x="52"
+                y="0">
+              <Text>
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="16">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TITLE]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+            <PartText
+                height="36"
+                width="128"
+                x="52"
+                y="16">
+              <Text>
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="36">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TEXT]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+          </Default>
+        </Condition>
       </Complication>
     </ComplicationSlot>
     <!-- Shortcut 2 -->
@@ -171,13 +282,81 @@
         x="45"
         y="193"
         slotId="shortcut_2"
-        supportedTypes="EMPTY SHORT_TEXT"
+        supportedTypes="LONG_TEXT SHORT_TEXT EMPTY"
         name="Shortcut 2">
       <BoundingBox
           height="52"
           width="180"
           x="0"
           y="0" />
+      <Complication type="LONG_TEXT">
+        <PartImage
+            height="52"
+            width="52"
+            x="0"
+            y="0">
+          <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" />
+        </PartImage>
+        <Condition>
+          <Expressions>
+            <Expression name="expression_2">
+              <![CDATA[textLength([COMPLICATION.TITLE]) == 0]]>
+            </Expression>
+          </Expressions>
+          <Compare expression="expression_2">
+            <PartText
+                height="52"
+                width="128"
+                x="52"
+                y="0">
+              <Text>
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="52">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TEXT]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+          </Compare>
+          <Default>
+            <PartText
+                height="16"
+                width="128"
+                x="52"
+                y="0">
+              <Text>
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="16">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TITLE]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+            <PartText
+                height="36"
+                width="128"
+                x="52"
+                y="16">
+              <Text maxLines="2">
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="26">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TEXT]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+          </Default>
+        </Condition>
+      </Complication>
       <Complication type="SHORT_TEXT">
         <PartImage
             height="52"
@@ -186,22 +365,65 @@
             y="0">
           <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" />
         </PartImage>
-        <PartText
-            height="52"
-            width="128"
-            x="52"
-            y="0">
-          <Text maxLines="2">
-            <Font
-                family="SYNC_TO_DEVICE"
-                size="26">
-              <Template>
-                <![CDATA[%s]]>
-                <Parameter expression="[COMPLICATION.TEXT]" />
-              </Template>
-            </Font>
-          </Text>
-        </PartText>
+        <Condition>
+          <Expressions>
+            <Expression name="expression_3">
+              <![CDATA[textLength([COMPLICATION.TITLE]) == 0]]>
+            </Expression>
+          </Expressions>
+          <Compare expression="expression_3">
+            <PartText
+                height="52"
+                width="128"
+                x="52"
+                y="0">
+              <Text>
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="52">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TEXT]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+          </Compare>
+          <Default>
+            <PartText
+                height="16"
+                width="128"
+                x="52"
+                y="0">
+              <Text>
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="16">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TITLE]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+            <PartText
+                height="36"
+                width="128"
+                x="52"
+                y="16">
+              <Text>
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="36">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TEXT]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+          </Default>
+        </Condition>
       </Complication>
     </ComplicationSlot>
     <!-- Shortcut 3 -->
@@ -211,13 +433,81 @@
         x="45"
         y="249"
         slotId="shortcut_3"
-        supportedTypes="EMPTY SHORT_TEXT"
+        supportedTypes="LONG_TEXT SHORT_TEXT EMPTY"
         name="Shortcut 3">
       <BoundingBox
           height="52"
           width="180"
           x="0"
           y="0" />
+      <Complication type="LONG_TEXT">
+        <PartImage
+            height="52"
+            width="52"
+            x="0"
+            y="0">
+          <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" />
+        </PartImage>
+        <Condition>
+          <Expressions>
+            <Expression name="expression_4">
+              <![CDATA[textLength([COMPLICATION.TITLE]) == 0]]>
+            </Expression>
+          </Expressions>
+          <Compare expression="expression_4">
+            <PartText
+                height="52"
+                width="128"
+                x="52"
+                y="0">
+              <Text>
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="52">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TEXT]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+          </Compare>
+          <Default>
+            <PartText
+                height="16"
+                width="128"
+                x="52"
+                y="0">
+              <Text>
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="16">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TITLE]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+            <PartText
+                height="36"
+                width="128"
+                x="52"
+                y="16">
+              <Text maxLines="2">
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="26">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TEXT]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+          </Default>
+        </Condition>
+      </Complication>
       <Complication type="SHORT_TEXT">
         <PartImage
             height="52"
@@ -226,22 +516,65 @@
             y="0">
           <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" />
         </PartImage>
-        <PartText
-            height="52"
-            width="128"
-            x="52"
-            y="0">
-          <Text maxLines="2">
-            <Font
-                family="SYNC_TO_DEVICE"
-                size="26">
-              <Template>
-                <![CDATA[%s]]>
-                <Parameter expression="[COMPLICATION.TEXT]" />
-              </Template>
-            </Font>
-          </Text>
-        </PartText>
+        <Condition>
+          <Expressions>
+            <Expression name="expression_5">
+              <![CDATA[textLength([COMPLICATION.TITLE]) == 0]]>
+            </Expression>
+          </Expressions>
+          <Compare expression="expression_5">
+            <PartText
+                height="52"
+                width="128"
+                x="52"
+                y="0">
+              <Text>
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="52">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TEXT]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+          </Compare>
+          <Default>
+            <PartText
+                height="16"
+                width="128"
+                x="52"
+                y="0">
+              <Text>
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="16">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TITLE]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+            <PartText
+                height="36"
+                width="128"
+                x="52"
+                y="16">
+              <Text>
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="36">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TEXT]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+          </Default>
+        </Condition>
       </Complication>
     </ComplicationSlot>
     <!-- Shortcut 4 -->
@@ -251,13 +584,81 @@
         x="45"
         y="305"
         slotId="shortcut_4"
-        supportedTypes="EMPTY SHORT_TEXT"
+        supportedTypes="LONG_TEXT SHORT_TEXT EMPTY"
         name="Shortcut 4">
       <BoundingBox
           height="52"
           width="180"
           x="0"
           y="0" />
+      <Complication type="LONG_TEXT">
+        <PartImage
+            height="52"
+            width="52"
+            x="0"
+            y="0">
+          <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" />
+        </PartImage>
+        <Condition>
+          <Expressions>
+            <Expression name="expression_6">
+              <![CDATA[textLength([COMPLICATION.TITLE]) == 0]]>
+            </Expression>
+          </Expressions>
+          <Compare expression="expression_6">
+            <PartText
+                height="52"
+                width="128"
+                x="52"
+                y="0">
+              <Text>
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="52">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TEXT]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+          </Compare>
+          <Default>
+            <PartText
+                height="16"
+                width="128"
+                x="52"
+                y="0">
+              <Text>
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="16">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TITLE]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+            <PartText
+                height="36"
+                width="128"
+                x="52"
+                y="16">
+              <Text maxLines="2">
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="26">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TEXT]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+          </Default>
+        </Condition>
+      </Complication>
       <Complication type="SHORT_TEXT">
         <PartImage
             height="52"
@@ -266,22 +667,65 @@
             y="0">
           <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" />
         </PartImage>
-        <PartText
-            height="52"
-            width="128"
-            x="52"
-            y="0">
-          <Text maxLines="2">
-            <Font
-                family="SYNC_TO_DEVICE"
-                size="26">
-              <Template>
-                <![CDATA[%s]]>
-                <Parameter expression="[COMPLICATION.TEXT]" />
-              </Template>
-            </Font>
-          </Text>
-        </PartText>
+        <Condition>
+          <Expressions>
+            <Expression name="expression_7">
+              <![CDATA[textLength([COMPLICATION.TITLE]) == 0]]>
+            </Expression>
+          </Expressions>
+          <Compare expression="expression_7">
+            <PartText
+                height="52"
+                width="128"
+                x="52"
+                y="0">
+              <Text>
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="52">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TEXT]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+          </Compare>
+          <Default>
+            <PartText
+                height="16"
+                width="128"
+                x="52"
+                y="0">
+              <Text>
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="16">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TITLE]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+            <PartText
+                height="36"
+                width="128"
+                x="52"
+                y="16">
+              <Text>
+                <Font
+                    family="SYNC_TO_DEVICE"
+                    size="36">
+                  <Template>
+                    <![CDATA[%s]]>
+                    <Parameter expression="[COMPLICATION.TEXT]" />
+                  </Template>
+                </Font>
+              </Text>
+            </PartText>
+          </Default>
+        </Condition>
       </Complication>
     </ComplicationSlot>
     <!-- AOD -->
@@ -331,11 +775,11 @@
     <!-- Notification counter -->
     <Condition>
       <Expressions>
-        <Expression name="expression_0">
+        <Expression name="expression_8">
           <![CDATA[[UNREAD_NOTIFICATION_COUNT] > 0]]>
         </Expression>
       </Expressions>
-      <Compare expression="expression_0">
+      <Compare expression="expression_8">
         <Group
             height="36"
             width="36"

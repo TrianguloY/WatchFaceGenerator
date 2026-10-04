@@ -7,4 +7,5 @@ class Complication(type: ComplicationType) : Component("Complication") {
 
     operator fun PartImage.unaryPlus() = super.add(this)
     operator fun PartText.unaryPlus() = super.add(this)
+    operator fun Condition.unaryPlus() = super.add(this)
 }
