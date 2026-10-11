@@ -1,11 +1,14 @@
 package com.trianguloy.generator.xml
 
-internal open class Tag(val name: String) : Element {
+fun Tag(name: String, init: Tag.() -> Unit) = Tag(name).apply { init() }
+
+@TagDsl
+open class Tag internal constructor(val name: String) : Element {
     internal val properties = mutableMapOf<String, String>()
     internal val content = mutableListOf<Element>()
 
-    internal operator fun set(key: String, value: Any) = properties.set(key, value.toString())
-    internal operator fun Element.unaryPlus() {
+    operator fun set(key: String, value: Any) = properties.set(key, value.toString())
+    operator fun Element.unaryPlus() {
         this@Tag.content += this
     }
 
@@ -24,4 +27,9 @@ internal open class Tag(val name: String) : Element {
 
         }
     }
+
+
 }
+
+@DslMarker
+internal annotation class TagDsl

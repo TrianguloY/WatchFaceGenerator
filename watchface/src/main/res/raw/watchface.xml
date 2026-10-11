@@ -16,7 +16,7 @@
       <Text>
         <Font
             family="SYNC_TO_DEVICE"
-            size="23">
+            size="450">
           <Template>
             <![CDATA[%s/%s/%s]]>
             <Parameter expression="[YEAR]" />
@@ -35,7 +35,7 @@
       <Text>
         <Font
             family="SYNC_TO_DEVICE"
-            size="22">
+            size="450">
           <Template>
             <![CDATA[%s - %s]]>
             <Parameter expression="[MONTH_F]" />
@@ -179,7 +179,7 @@
               <Text>
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="16">
+                    size="52">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TITLE]" />
@@ -247,7 +247,7 @@
               <Text>
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="16">
+                    size="52">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TITLE]" />
@@ -263,7 +263,7 @@
               <Text>
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="36">
+                    size="52">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TEXT]" />
@@ -330,7 +330,7 @@
               <Text>
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="16">
+                    size="52">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TITLE]" />
@@ -398,7 +398,7 @@
               <Text>
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="16">
+                    size="52">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TITLE]" />
@@ -414,7 +414,7 @@
               <Text>
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="36">
+                    size="52">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TEXT]" />
@@ -481,7 +481,7 @@
               <Text>
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="16">
+                    size="52">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TITLE]" />
@@ -549,7 +549,7 @@
               <Text>
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="16">
+                    size="52">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TITLE]" />
@@ -565,7 +565,7 @@
               <Text>
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="36">
+                    size="52">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TEXT]" />
@@ -632,7 +632,7 @@
               <Text>
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="16">
+                    size="52">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TITLE]" />
@@ -700,7 +700,7 @@
               <Text>
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="16">
+                    size="52">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TITLE]" />
@@ -716,7 +716,7 @@
               <Text>
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="36">
+                    size="52">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TEXT]" />

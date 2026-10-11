@@ -1,3 +1,3 @@
 package com.trianguloy.generator.xml
 
-internal interface Element
+interface Element
