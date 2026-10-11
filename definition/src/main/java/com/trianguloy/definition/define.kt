@@ -3,8 +3,6 @@ package com.trianguloy.definition
 import com.trianguloy.generator.custom.ElipseBorder
 import com.trianguloy.generator.custom.ElipseFill
 import com.trianguloy.generator.custom.SimpleCondition
-import com.trianguloy.generator.custom.SimpleDraw
-import com.trianguloy.generator.custom.SimpleGroup
 import com.trianguloy.generator.custom.SimpleImage
 import com.trianguloy.generator.custom.SimpleText
 import com.trianguloy.generator.custom.SimpleTimeText
@@ -16,6 +14,8 @@ import com.trianguloy.generator.custom.toProject
 import com.trianguloy.generator.custom.vertical
 import com.trianguloy.generator.wff.ComplicationType.LONG_TEXT
 import com.trianguloy.generator.wff.ComplicationType.SHORT_TEXT
+import com.trianguloy.generator.wff.Group
+import com.trianguloy.generator.wff.PartDraw
 import com.trianguloy.generator.wff.TimeText.Format.HOUR
 import com.trianguloy.generator.wff.TimeText.Format.MINUTES
 import com.trianguloy.generator.wff.helpers.DigitalWatchface
@@ -26,140 +26,140 @@ import java.awt.Color.WHITE
 
 fun main() {
     DigitalWatchface {
-        {
-            +Comment("Date 1")
-            +SimpleText(partTextInit = { vertical = pv(0.1) to pv(0.15) }) {
-                "${expression("[YEAR]")}/${expression("[MONTH_Z]")}/${expression("[DAY]")}"
-            }
 
-            +Comment("Date 2")
-            +SimpleText(partTextInit = { vertical = pv(0.15) to pv(0.2) }) {
-                "${expression("[MONTH_F]")} - ${expression("[DAY_OF_WEEK_F]")}"
-            }
-
-            +Comment("Watch battery")
-            +SimpleComplication(complicationSlotInit = {
-                slotId = "watch_battery"
-                name = "Watch battery"
-                horizontal = ph(0.12) to ph(0.31)
-                vertical = pv(0.21) to pv(0.26)
-            }) {
-                forType(SHORT_TEXT) {
-                    +SimpleImage({ horizontal = 0 to height }, "[COMPLICATION.MONOCHROMATIC_IMAGE]")
-                    +SimpleText(partTextInit = { horizontal = height to width }) {
-                        "${expression("[COMPLICATION.TEXT]")}%"
-                    }
-                }
-            }
-
-            +Comment("Phone battery")
-            +SimpleComplication(complicationSlotInit = {
-                slotId = "phone_battery"
-                name = "Phone battery"
-                horizontal = ph(0.31) to ph(0.5)
-                vertical = pv(0.21) to pv(0.26)
-            }) {
-                forType(SHORT_TEXT) {
-                    +SimpleImage({ horizontal = 0 to height }, "[COMPLICATION.MONOCHROMATIC_IMAGE]")
-                    +SimpleText(partTextInit = { horizontal = height to width }) {
-                        "${expression("[COMPLICATION.TEXT]")}%"
-                    }
-                }
-            }
-
-            val shortcutsFrom = pv(0.3)
-            val shortcutsTo = pv(0.8)
-            val n = 4
-            val pad = 2
-            for (i in 1..n) {
-                val h = (shortcutsTo - shortcutsFrom) / n
-                +Comment("Shortcut $i")
-                +SimpleComplication({
-                    slotId = "shortcut_$i"
-                    name = "Shortcut $i"
-                    horizontal = ph(0.1) to ph(0.5)
-                    vertical = shortcutsFrom + h * (i - 1) + pad to shortcutsFrom + h * i - pad
-                }) {
-                    for (type in listOf(LONG_TEXT, SHORT_TEXT)) {
-                        forType(type) {
-                            +SimpleImage({ horizontal = 0 to height }, "[COMPLICATION.MONOCHROMATIC_IMAGE]")
-                            +SimpleCondition {
-                                generateIf("textLength([COMPLICATION.TITLE]) == 0") {
-                                    // only text
-                                    +SimpleText({
-                                        horizontal = height to ph(1.0)
-                                    }) {
-//                                        if(type == LONG_TEXT) lines = 2
-                                        expression("[COMPLICATION.TEXT]")
-                                    }
-                                }
-                                elseGenerate {
-                                    // title and text
-                                    +SimpleText({
-                                        horizontal = height to ph(1.0)
-                                        vertical = 0 to pv(0.3)
-                                    }) {
-                                        expression("[COMPLICATION.TITLE]")
-                                    }
-                                    +SimpleText({
-                                        horizontal = height to ph(1.0)
-                                        vertical = pv(0.3) to height
-                                    }) {
-                                        if (type == LONG_TEXT) lines = 2
-                                        expression("[COMPLICATION.TEXT]")
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            +Comment("AOD")
-            +SimpleDraw {
-                alpha = 0
-                ambient(::alpha, 128)
-
-                +ElipseFill { color = BLACK }
-            }
-
-            +Comment("Ambient indicator")
-            +SimpleDraw {
-                ambient(::alpha, 0)
-                vertical = 1 to height - 1
-                horizontal = 1 to width - 1
-                +ElipseBorder { dashIntervals = listOf(3.0, 12.0) }
-            }
-
-            +Comment("Notification counter")
-            +SimpleCondition {
-                generateIf("[UNREAD_NOTIFICATION_COUNT] > 0") {
-                    +SimpleGroup {
-                        horizontal = ph(0.9) to ph(0.98)
-                        vertical = pv(0.46) to pv(0.54)
-                        +SimpleDraw {
-                            +ElipseFill {
-                                color = WHITE
-                            }
-                        }
-                        +SimpleText(fontInit = { color = BLACK }) {
-                            expression("[UNREAD_NOTIFICATION_COUNT]")
-                        }
-                    }
-                }
-            }
-
-            +Comment("Hours")
-            +SimpleTimeText({
-                horizontal = ph(0.5) to ph(0.9)
-                vertical = pv(0.17) to pv(0.54)
-            }, HOUR)
-            +Comment("Minutes")
-            +SimpleTimeText({
-                horizontal = ph(0.5) to ph(0.9)
-                vertical = pv(0.46) to pv(0.84)
-            }, MINUTES)
+        +Comment("Date 1")
+        +SimpleText(partTextInit = { vertical = pv(0.1) to pv(0.15) }) {
+            "${expression("[YEAR]")}/${expression("[MONTH_Z]")}/${expression("[DAY]")}"
         }
+
+        +Comment("Date 2")
+        +SimpleText(partTextInit = { vertical = pv(0.15) to pv(0.2) }) {
+            "${expression("[MONTH_F]")} - ${expression("[DAY_OF_WEEK_F]")}"
+        }
+
+        +Comment("Watch battery")
+        +SimpleComplication(complicationSlotInit = {
+            slotId = "watch_battery"
+            name = "Watch battery"
+            horizontal = ph(0.12) to ph(0.31)
+            vertical = pv(0.21) to pv(0.26)
+        }) {
+            forType(SHORT_TEXT) {
+                +SimpleImage({ horizontal = 0 to height }, "[COMPLICATION.MONOCHROMATIC_IMAGE]")
+                +SimpleText(partTextInit = { horizontal = height to width }) {
+                    "${expression("[COMPLICATION.TEXT]")}%"
+                }
+            }
+        }
+
+        +Comment("Phone battery")
+        +SimpleComplication(complicationSlotInit = {
+            slotId = "phone_battery"
+            name = "Phone battery"
+            horizontal = ph(0.31) to ph(0.5)
+            vertical = pv(0.21) to pv(0.26)
+        }) {
+            forType(SHORT_TEXT) {
+                +SimpleImage({ horizontal = 0 to height }, "[COMPLICATION.MONOCHROMATIC_IMAGE]")
+                +SimpleText(partTextInit = { horizontal = height to width }) {
+                    "${expression("[COMPLICATION.TEXT]")}%"
+                }
+            }
+        }
+
+        val shortcutsFrom = pv(0.3)
+        val shortcutsTo = pv(0.8)
+        val n = 4
+        val pad = 2
+        for (i in 1..n) {
+            val h = (shortcutsTo - shortcutsFrom) / n
+            +Comment("Shortcut $i")
+            +SimpleComplication({
+                slotId = "shortcut_$i"
+                name = "Shortcut $i"
+                horizontal = ph(0.1) to ph(0.5)
+                vertical = shortcutsFrom + h * (i - 1) + pad to shortcutsFrom + h * i - pad
+            }) {
+                for (type in listOf(LONG_TEXT, SHORT_TEXT)) {
+                    forType(type) {
+                        +SimpleImage({ horizontal = 0 to height }, "[COMPLICATION.MONOCHROMATIC_IMAGE]")
+                        +SimpleCondition {
+                            generateIf("textLength([COMPLICATION.TITLE]) == 0") {
+                                // only text
+                                +SimpleText({
+                                    horizontal = height to ph(1.0)
+                                }) {
+//                                        if(type == LONG_TEXT) lines = 2
+                                    expression("[COMPLICATION.TEXT]")
+                                }
+                            }
+                            elseGenerate {
+                                // title and text
+                                +SimpleText({
+                                    horizontal = height to ph(1.0)
+                                    vertical = 0 to pv(0.3)
+                                }) {
+                                    expression("[COMPLICATION.TITLE]")
+                                }
+                                +SimpleText({
+                                    horizontal = height to ph(1.0)
+                                    vertical = pv(0.3) to height
+                                }) {
+                                    if (type == LONG_TEXT) lines = 2
+                                    expression("[COMPLICATION.TEXT]")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        +Comment("AOD")
+        +PartDraw {
+            alpha = 0
+            ambient(::alpha, 128)
+
+            +ElipseFill { color = BLACK }
+        }
+
+        +Comment("Ambient indicator")
+        +PartDraw {
+            ambient(::alpha, 0)
+            vertical = 1 to height - 1
+            horizontal = 1 to width - 1
+            +ElipseBorder { dashIntervals = listOf(3.0, 12.0) }
+        }
+
+        +Comment("Notification counter")
+        +SimpleCondition {
+            generateIf("[UNREAD_NOTIFICATION_COUNT] > 0") {
+                +Group {
+                    horizontal = ph(0.9) to ph(0.98)
+                    vertical = pv(0.46) to pv(0.54)
+                    +PartDraw {
+                        +ElipseFill {
+                            color = WHITE
+                        }
+                    }
+                    +SimpleText(fontInit = { color = BLACK }) {
+                        expression("[UNREAD_NOTIFICATION_COUNT]")
+                    }
+                }
+            }
+        }
+
+        +Comment("Hours")
+        +SimpleTimeText({
+            horizontal = ph(0.5) to ph(0.9)
+            vertical = pv(0.17) to pv(0.54)
+        }, HOUR)
+        +Comment("Minutes")
+        +SimpleTimeText({
+            horizontal = ph(0.5) to ph(0.9)
+            vertical = pv(0.46) to pv(0.84)
+        }, MINUTES)
+
     }.toProject()
 
 }

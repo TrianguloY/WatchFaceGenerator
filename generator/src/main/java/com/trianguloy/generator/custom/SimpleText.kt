@@ -5,22 +5,22 @@ import com.trianguloy.generator.wff.Parameter
 import com.trianguloy.generator.wff.PartText
 import com.trianguloy.generator.wff.Template
 import com.trianguloy.generator.wff.Text
-import com.trianguloy.generator.wff.helpers.Size
+import com.trianguloy.generator.wff.helpers.Componentt
 import com.trianguloy.generator.xml.Cdata
 
-fun Size.SimpleText(
+fun Componentt.SimpleText(
     partTextInit: PartText.() -> Unit = {},
     textInit: Text.() -> Unit = {},
     fontInit: Font.() -> Unit = {},
     templateInit: Template.() -> Unit = {},
     text: SimpleText .() -> String
-) = PartText().apply {
+) = PartText {
     partTextInit()
-    +Text().apply {
+    +Text {
         textInit()
-        +Font(height).apply {
+        +Font(this@PartText.height) {
             fontInit()
-            +Template().apply {
+            +Template {
                 templateInit()
 
                 val simpleText = SimpleText()
@@ -31,8 +31,8 @@ fun Size.SimpleText(
                 }
 
                 simpleText.lines?.let {
-                    maxLines = it
-                    size = parentHeight / it
+                    this@Text.maxLines = it
+                    this@Font.size = this@PartText.height / it
                 }
             }
         }

@@ -1,6 +1,10 @@
 package com.trianguloy.generator.xml
 
-fun Tag(name: String, init: Tag.() -> Unit) = Tag(name).apply { init() }
+fun Tag(name: String, init: Tag.() -> Unit = {}) = Tag(name).apply { init() }
+
+
+@DslMarker
+internal annotation class TagDsl
 
 @TagDsl
 open class Tag internal constructor(val name: String) : Element {
@@ -30,6 +34,3 @@ open class Tag internal constructor(val name: String) : Element {
 
 
 }
-
-@DslMarker
-internal annotation class TagDsl

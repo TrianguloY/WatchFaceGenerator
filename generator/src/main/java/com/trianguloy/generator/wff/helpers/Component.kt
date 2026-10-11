@@ -1,8 +1,8 @@
 package com.trianguloy.generator.wff.helpers
 
 import com.trianguloy.generator.wff.Variant
+import com.trianguloy.generator.xml.Cdata
 import com.trianguloy.generator.xml.Comment
-import com.trianguloy.generator.xml.Element
 import com.trianguloy.generator.xml.Tag
 import java.awt.Color
 import kotlin.properties.PropertyDelegateProvider
@@ -10,15 +10,30 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 
-open class Component(name: String) : Element {
-    internal val tag = Tag(name)
+@DslMarker
+internal annotation class ComponentDsl
+
+@ComponentDsl
+interface Componentt {
+    val tag: Tag
+    val parent: Componentt?
+
+    // always allowed
+    operator fun Comment.unaryPlus()
+    operator fun Variant.unaryPlus() // allow everywhere for now
+
+    override fun toString(): String
+}
+
+open class Component(name: String, override val parent: Componentt?) : Componentt {
+    override val tag = Tag(name)
     internal fun <V : Any> delegate(default: V?, getter: (String) -> V, setter: (V) -> String = { it.toString() }) =
-        object : ReadWriteProperty<Component, V?> {
-            override operator fun getValue(thisRef: Component, property: KProperty<*>): V? {
+        object : ReadWriteProperty<Any, V?> {
+            override operator fun getValue(thisRef: Any, property: KProperty<*>): V? {
                 return tag.properties[property.name]?.let { getter(it) } ?: default
             }
 
-            override operator fun setValue(thisRef: Component, property: KProperty<*>, value: V?) {
+            override operator fun setValue(thisRef: Any, property: KProperty<*>, value: V?) {
                 if (value == null) {
                     if (default == null) {
                         tag.properties.remove(property.name)
@@ -31,14 +46,14 @@ open class Component(name: String) : Element {
             }
         }
 
-    internal fun <V : Any> delegate(default: V, getter: (String) -> V, setter: (V) -> String) = PropertyDelegateProvider<Component, ReadWriteProperty<Component, V>> { _, property ->
+    internal fun <V : Any> delegate(default: V, getter: (String) -> V, setter: (V) -> String) = PropertyDelegateProvider<Any, ReadWriteProperty<Any, V>> { _, property ->
         tag[property.name] = setter(default)
-        object : ReadWriteProperty<Component, V> {
-            override operator fun getValue(thisRef: Component, property: KProperty<*>): V {
+        object : ReadWriteProperty<Any, V> {
+            override operator fun getValue(thisRef: Any, property: KProperty<*>): V {
                 return tag.properties[property.name]?.let { getter(it) } ?: default
             }
 
-            override operator fun setValue(thisRef: Component, property: KProperty<*>, value: V) {
+            override operator fun setValue(thisRef: Any, property: KProperty<*>, value: V) {
                 tag.properties[property.name] = setter(value)
             }
         }
@@ -57,13 +72,16 @@ open class Component(name: String) : Element {
 
 
     // not as operator to avoid recursion problems
-    internal fun add(element: Element) = tag.run { +element }
+    internal fun add(componentt: Componentt) = tag.run { +componentt.tag }
+
+    // not always allowed
+    internal fun add(cdata: Cdata) = tag.apply { +cdata }
 
 
     // always allowed
-    operator fun Comment.unaryPlus() = this@Component.add(this)
+    override operator fun Comment.unaryPlus() = tag.run { +this@unaryPlus }
 
     // may not always be allowed, but for now just allow
-    operator fun Variant.unaryPlus() = this@Component.add(this)
+    override operator fun Variant.unaryPlus() = this@Component.add(this)
     override fun toString() = tag.toString()
 }

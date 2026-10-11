@@ -1,11 +1,14 @@
 package com.trianguloy.generator.wff
 
 import com.trianguloy.generator.wff.helpers.Area
-import com.trianguloy.generator.wff.helpers.Size
+import com.trianguloy.generator.wff.helpers.AreaImpl
+import com.trianguloy.generator.wff.helpers.Component
+import com.trianguloy.generator.wff.helpers.Componentt
 
-fun Size.PartDraw() = PartDraw(this)
-class PartDraw internal constructor(parent: Size) : Area("PartDraw", parent) {
-    var alpha: Int? by delegate(null as Int?)
+fun Componentt.PartDraw(init: PartDraw.() -> Unit = {}) = PartDraw(Component("PartDraw", this)).apply { init() }
 
-    operator fun RoundRectangle.unaryPlus() = super.add(this)
+class PartDraw internal constructor(private val component: Component) : Componentt by component, Area by AreaImpl(component) {
+    var alpha: Int? by component.delegate(null as Int?)
+
+    operator fun RoundRectangle.unaryPlus() = this@PartDraw.component.add(this)
 }

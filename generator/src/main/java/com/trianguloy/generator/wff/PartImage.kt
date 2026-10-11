@@ -1,11 +1,13 @@
 package com.trianguloy.generator.wff
 
 import com.trianguloy.generator.wff.helpers.Area
-import com.trianguloy.generator.wff.helpers.Size
+import com.trianguloy.generator.wff.helpers.AreaImpl
+import com.trianguloy.generator.wff.helpers.Component
+import com.trianguloy.generator.wff.helpers.Componentt
 
+fun Componentt.PartImage(init: PartImage.() -> Unit = {}) = PartImage(Component("PartImage", this)).apply { init() }
 
-fun Size.PartImage() = PartImage(this)
-class PartImage internal constructor(parent: Size) : Area("PartImage", parent) {
+class PartImage internal constructor(private val component: Component) : Componentt by component, Area by AreaImpl(component) {
 
-    operator fun Image.unaryPlus() = super.add(this)
+    operator fun Image.unaryPlus() = this@PartImage.component.add(this)
 }

@@ -2,9 +2,9 @@ package com.trianguloy.generator.custom
 
 import com.trianguloy.generator.wff.Image
 import com.trianguloy.generator.wff.PartImage
-import com.trianguloy.generator.wff.helpers.Size
+import com.trianguloy.generator.wff.helpers.Componentt
 
-fun Size.SimpleImage(partImageInit: PartImage.() -> Unit = {}, resource: String) = PartImage().apply {
+fun Componentt.SimpleImage(partImageInit: PartImage.() -> Unit = {}, resource: String) = PartImage {
     partImageInit()
     +Image(resource)
 }

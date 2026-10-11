@@ -3,36 +3,36 @@ package com.trianguloy.generator.custom
 import com.trianguloy.generator.wff.Fill
 import com.trianguloy.generator.wff.RoundRectangle
 import com.trianguloy.generator.wff.Stroke
-import com.trianguloy.generator.wff.helpers.Size
+import com.trianguloy.generator.wff.helpers.Componentt
 
-fun Size.RectangleFill(roundRectangleInit: RoundRectangle.() -> Unit = {}, fillInit: Fill.() -> Unit = {}) = RoundRectangle().apply {
+fun Componentt.RectangleFill(roundRectangleInit: RoundRectangle.() -> Unit = {}, fillInit: Fill.() -> Unit = {}) = RoundRectangle {
     roundRectangleInit()
-    +Fill().apply {
+    +Fill {
         fillInit()
     }
 }
 
-fun Size.ElipseFill(roundRectangleInit: RoundRectangle.() -> Unit = {}, fillInit: Fill.() -> Unit = {}) = RoundRectangle().apply {
+fun Componentt.ElipseFill(roundRectangleInit: RoundRectangle.() -> Unit = {}, fillInit: Fill.() -> Unit = {}) = RoundRectangle {
     cornerRadiusX = width / 2
     cornerRadiusY = height / 2
     roundRectangleInit()
-    +Fill().apply {
+    +Fill {
         fillInit()
     }
 }
 
-fun Size.RectangleBorder(roundRectangleInit: RoundRectangle.() -> Unit = {}, fillStroke: Stroke.() -> Unit = {}) = RoundRectangle().apply {
+fun Componentt.RectangleBorder(roundRectangleInit: RoundRectangle.() -> Unit = {}, fillStroke: Stroke.() -> Unit = {}) = RoundRectangle {
     roundRectangleInit()
-    +Stroke().apply {
+    +Stroke {
         fillStroke()
     }
 }
 
-fun Size.ElipseBorder(roundRectangleInit: RoundRectangle.() -> Unit = {}, fillStroke: Stroke.() -> Unit = {}) = RoundRectangle().apply {
+fun Componentt.ElipseBorder(roundRectangleInit: RoundRectangle.() -> Unit = {}, fillStroke: Stroke.() -> Unit = {}) = RoundRectangle {
     cornerRadiusX = width / 2
     cornerRadiusY = height / 2
     roundRectangleInit()
-    +Stroke().apply {
+    +Stroke {
         fillStroke()
     }
 }

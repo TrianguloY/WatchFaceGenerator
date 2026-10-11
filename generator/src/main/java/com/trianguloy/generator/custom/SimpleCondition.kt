@@ -5,23 +5,24 @@ import com.trianguloy.generator.wff.Condition
 import com.trianguloy.generator.wff.Default
 import com.trianguloy.generator.wff.Expression
 import com.trianguloy.generator.wff.Expressions
+import com.trianguloy.generator.wff.helpers.Componentt
 import com.trianguloy.generator.xml.Cdata
 
-fun SimpleCondition(expressions: SimpleCondition.() -> Unit) = Condition().apply {
+fun Componentt.SimpleCondition(expressions: SimpleCondition.() -> Unit) = Condition {
 
-    val simpleCondition = SimpleCondition()
+    val simpleCondition = SimpleCondition(this)
     simpleCondition.expressions()
 
-    +Expressions().apply {
-        for (expression in simpleCondition.expressions) {
-            +Expression(expression.name).apply {
-                +Cdata(expression.check)
+    +Expressions {
+        for ((name, check) in simpleCondition.expressions) {
+            +Expression(name) {
+                +Cdata(check)
             }
         }
     }
     for (expression in simpleCondition.expressions) {
-        +Compare(expression.name).apply {
-            expression.then(this) // what black magic is this...
+        +Compare(expression.name) {
+            expression.then(this)
         }
     }
     simpleCondition.default?.let { +it }
@@ -29,17 +30,17 @@ fun SimpleCondition(expressions: SimpleCondition.() -> Unit) = Condition().apply
 
 private var nextExpression = 0
 
-class SimpleCondition internal constructor() {
-    internal data class Expression(val name: String, val check: String, val then: Compare.() -> Unit)
+class SimpleCondition internal constructor(private val condition: Condition) {
+    internal data class Expression(val name: String, val check: String, val then: Compare.() -> Unit = {})
 
     internal val expressions = mutableListOf<Expression>()
     internal var default: Default? = null
 
-    fun generateIf(expression: String, name: String? = null, compare: Compare.() -> Unit) {
+    fun generateIf(expression: String, name: String? = null, compare: Compare.() -> Unit = {}) {
         expressions += Expression(name ?: "expression_${nextExpression++}", expression, compare)
     }
 
-    fun elseGenerate(scene: Default.() -> Unit) {
-        default = Default().apply { scene() }
+    fun elseGenerate(scene: Default.() -> Unit = {}) {
+        default = condition.Default { scene() }
     }
 }

@@ -1,23 +1,41 @@
 package com.trianguloy.generator.wff
 
+import com.trianguloy.generator.wff.Metadata.ClockTypeValues.DIGITAL
 import com.trianguloy.generator.wff.Metadata.Key.CLOCK_TYPE
 import com.trianguloy.generator.wff.Metadata.Key.PREVIEW_TIME
+import com.trianguloy.generator.wff.Metadata.Key.STEP_GOAL
 import com.trianguloy.generator.wff.helpers.Component
+import com.trianguloy.generator.wff.helpers.Componentt
 import kotlin.properties.PropertyDelegateProvider
 import kotlin.properties.ReadWriteProperty
 
-sealed class Metadata<V> private constructor(key: Key, customDelegate: Metadata<V>.() -> PropertyDelegateProvider<Component, ReadWriteProperty<Component, V>>) : Component("Metadata") {
 
-    class ClockType(value: ClockTypeValues) : Metadata<ClockTypeValues>(
-        CLOCK_TYPE,
-        { delegate(value, ClockTypeValues::class) })
+class Metadata<V> private constructor(key: Key, customDelegate: Metadata<V>.() -> PropertyDelegateProvider<Any, ReadWriteProperty<Any, V>>, private val component: Component) : Componentt by component {
+
+    companion object {
+        fun Componentt.Metadata_ClockType(init: Metadata<ClockTypeValues>.() -> Unit = {}) = Metadata(
+            CLOCK_TYPE,
+            { component.delegate(DIGITAL, ClockTypeValues::class) },
+            Component("Metadata", this)
+        ).apply { init() }
+
+        fun Componentt.Metadata_PreviewTime(init: Metadata<PreviewTimeValue>.() -> Unit = {}) = Metadata(
+            PREVIEW_TIME,
+            { component.delegate(PreviewTimeValue(10, 10, 20), { PreviewTimeValue.fromString(it) }, { it.toString() }) },
+            Component("Metadata", this)
+        ).apply { init() }
+
+        fun Componentt.Metadata_StepGoal(init: Metadata<Int>.() -> Unit = {}) = Metadata(
+            STEP_GOAL,
+            { component.delegate(1000) },
+            Component("Metadata", this)
+        ).apply { init() }
+    }
 
     enum class ClockTypeValues {
         DIGITAL,
         ANALOG,
     }
-
-    class PreviewTime(time: PreviewTimeValue) : Metadata<PreviewTimeValue>(PREVIEW_TIME, { delegate(time, { PreviewTimeValue.fromString(it) }, { it.toString() }) })
 
     class PreviewTimeValue(val hours: Int, val minutes: Int, val seconds: Int) {
 
@@ -31,8 +49,6 @@ sealed class Metadata<V> private constructor(key: Key, customDelegate: Metadata<
         }
     }
 
-    class StepGoal(dailyGoal: Int) : Metadata<Int>(CLOCK_TYPE, { delegate(dailyGoal) })
-
 
     enum class Key {
         CLOCK_TYPE,
@@ -40,6 +56,6 @@ sealed class Metadata<V> private constructor(key: Key, customDelegate: Metadata<
         STEP_GOAL,
     }
 
-    internal var key by delegate(key, Key::class)
+    internal var key by component.delegate(key, Key::class)
     var value by customDelegate()
 }

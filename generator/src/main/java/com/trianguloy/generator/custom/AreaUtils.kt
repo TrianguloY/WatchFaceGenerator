@@ -1,7 +1,9 @@
 package com.trianguloy.generator.custom
 
 import com.trianguloy.generator.wff.helpers.Area
-import com.trianguloy.generator.wff.helpers.Size
+import com.trianguloy.generator.wff.helpers.Componentt
+import com.trianguloy.generator.wff.helpers.findHeight
+import com.trianguloy.generator.wff.helpers.findWidth
 import kotlin.math.roundToInt
 
 
@@ -19,5 +21,6 @@ var Area.vertical: Pair<Int, Int>
         height = value.second - value.first
     }
 
-fun Size.ph(h: Double) = (h * parentWidth).roundToInt()
-fun Size.pv(v: Double) = (v * parentHeight).roundToInt()
+fun Componentt.ph(h: Double) = (h * findWidth(this)).roundToInt()
+fun Componentt.pv(v: Double) = (v * findHeight(this)).roundToInt()
+
