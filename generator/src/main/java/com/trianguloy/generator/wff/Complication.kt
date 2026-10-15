@@ -16,4 +16,7 @@ enum class ComplicationType {
     EMPTY,
     SHORT_TEXT,
     LONG_TEXT,
+    PHOTO_IMAGE,
+    SMALL_IMAGE,
+    WEIGHTED_ELEMENTS,
 }
