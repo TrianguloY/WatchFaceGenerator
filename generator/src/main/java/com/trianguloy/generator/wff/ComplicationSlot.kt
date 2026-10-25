@@ -10,6 +10,8 @@ private var nextSlotId = 0
 
 fun Componentt.ComplicationSlot(init: ComplicationSlot.() -> Unit = {}) = ComplicationSlot(Component("ComplicationSlot", this)).apply { init() }
 class ComplicationSlot internal constructor(private val component: Component) : Componentt by component, Area by AreaImpl(component) {
+    var angle by component.delegate(null as Int?) // move to others too
+
     var name by component.delegate(null as String?)
     var slotId by component.delegate("slot_${nextSlotId++}")
     var supportedTypes by component.delegate(listOf(EMPTY), { it.split(" ").map { ComplicationType.valueOf(it) } }, { it.joinToString(" ") { it.name } })

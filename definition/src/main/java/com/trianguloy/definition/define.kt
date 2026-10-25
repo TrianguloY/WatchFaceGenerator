@@ -16,6 +16,7 @@ import com.trianguloy.generator.wff.ComplicationType.LONG_TEXT
 import com.trianguloy.generator.wff.ComplicationType.SHORT_TEXT
 import com.trianguloy.generator.wff.Group
 import com.trianguloy.generator.wff.PartDraw
+import com.trianguloy.generator.wff.Text
 import com.trianguloy.generator.wff.TimeText.Format.HOUR
 import com.trianguloy.generator.wff.TimeText.Format.MINUTES
 import com.trianguloy.generator.wff.helpers.DigitalWatchface
@@ -41,14 +42,15 @@ fun main() {
         +SimpleComplication(complicationSlotInit = {
             slotId = "watch_battery"
             name = "Watch battery"
-            horizontal = ph(0.12) to ph(0.31)
-            vertical = pv(0.21) to pv(0.26)
+            horizontal = ph(0.18) to ph(0.33)
+            vertical = pv(0.12) to pv(0.16)
+            angle = -37
         }) {
             forType(SHORT_TEXT) {
-                +SimpleImage({ horizontal = 0 to height }, "[COMPLICATION.MONOCHROMATIC_IMAGE]")
-                +SimpleText(partTextInit = { horizontal = height to width }) {
+                +SimpleText(partTextInit = { horizontal = 0 to width - height - 5 }, textInit = { align = Text.Align.END }) {
                     "${expression("[COMPLICATION.TEXT]")}%"
                 }
+                +SimpleImage({ horizontal = width - height to width }, "[COMPLICATION.MONOCHROMATIC_IMAGE]")
             }
         }
 
@@ -56,18 +58,19 @@ fun main() {
         +SimpleComplication(complicationSlotInit = {
             slotId = "phone_battery"
             name = "Phone battery"
-            horizontal = ph(0.31) to ph(0.5)
-            vertical = pv(0.21) to pv(0.26)
+            horizontal = ph(0.67) to ph(0.82)
+            vertical = pv(0.12) to pv(0.16)
+            angle = 37
         }) {
             forType(SHORT_TEXT) {
                 +SimpleImage({ horizontal = 0 to height }, "[COMPLICATION.MONOCHROMATIC_IMAGE]")
-                +SimpleText(partTextInit = { horizontal = height to width }) {
+                +SimpleText(partTextInit = { horizontal = height to width }, textInit = { align = Text.Align.START }) {
                     "${expression("[COMPLICATION.TEXT]")}%"
                 }
             }
         }
 
-        val shortcutsFrom = pv(0.3)
+        val shortcutsFrom = pv(0.2)
         val shortcutsTo = pv(0.8)
         val n = 4
         val pad = 2
@@ -86,10 +89,11 @@ fun main() {
                         +SimpleCondition {
                             generateIf("textLength([COMPLICATION.TITLE]) == 0") {
                                 // only text
-                                +SimpleText({
+                                +SimpleText(partTextInit = {
                                     horizontal = height to ph(1.0)
+                                }, fontInit = {
+                                    size = (size * 0.6).toInt()
                                 }) {
-                                    lines = 2
                                     expression("[COMPLICATION.TEXT]")
                                 }
                             }

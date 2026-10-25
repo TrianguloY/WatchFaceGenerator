@@ -32,7 +32,7 @@ fun Componentt.SimpleText(
 
                 simpleText.lines?.let {
                     this@Text.maxLines = it
-                    this@Font.size = this@PartText.height / it
+                    this@Font.size = (this@PartText.height * 0.8 / it).toInt()
                 }
             }
         }
