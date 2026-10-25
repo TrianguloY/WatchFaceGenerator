@@ -158,10 +158,10 @@
                 height="52"
                 x="52"
                 y="0">
-              <Text>
+              <Text maxLines="2">
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="52">
+                    size="26">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TEXT]" />
@@ -226,10 +226,10 @@
                 height="52"
                 x="52"
                 y="0">
-              <Text>
+              <Text maxLines="2">
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="52">
+                    size="26">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TEXT]" />
@@ -260,10 +260,10 @@
                 height="36"
                 x="52"
                 y="16">
-              <Text>
+              <Text maxLines="2">
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="36">
+                    size="18">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TEXT]" />
@@ -309,10 +309,10 @@
                 height="52"
                 x="52"
                 y="0">
-              <Text>
+              <Text maxLines="2">
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="52">
+                    size="26">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TEXT]" />
@@ -377,10 +377,10 @@
                 height="52"
                 x="52"
                 y="0">
-              <Text>
+              <Text maxLines="2">
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="52">
+                    size="26">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TEXT]" />
@@ -411,10 +411,10 @@
                 height="36"
                 x="52"
                 y="16">
-              <Text>
+              <Text maxLines="2">
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="36">
+                    size="18">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TEXT]" />
@@ -460,10 +460,10 @@
                 height="52"
                 x="52"
                 y="0">
-              <Text>
+              <Text maxLines="2">
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="52">
+                    size="26">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TEXT]" />
@@ -528,10 +528,10 @@
                 height="52"
                 x="52"
                 y="0">
-              <Text>
+              <Text maxLines="2">
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="52">
+                    size="26">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TEXT]" />
@@ -562,10 +562,10 @@
                 height="36"
                 x="52"
                 y="16">
-              <Text>
+              <Text maxLines="2">
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="36">
+                    size="18">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TEXT]" />
@@ -611,10 +611,10 @@
                 height="52"
                 x="52"
                 y="0">
-              <Text>
+              <Text maxLines="2">
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="52">
+                    size="26">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TEXT]" />
@@ -679,10 +679,10 @@
                 height="52"
                 x="52"
                 y="0">
-              <Text>
+              <Text maxLines="2">
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="52">
+                    size="26">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TEXT]" />
@@ -713,10 +713,10 @@
                 height="36"
                 x="52"
                 y="16">
-              <Text>
+              <Text maxLines="2">
                 <Font
                     family="SYNC_TO_DEVICE"
-                    size="36">
+                    size="18">
                   <Template>
                     <![CDATA[%s]]>
                     <Parameter expression="[COMPLICATION.TEXT]" />
@@ -730,15 +730,15 @@
     </ComplicationSlot>
     <!-- Media player -->
     <ComplicationSlot
-        width="180"
+        width="207"
         height="68"
-        x="135"
+        x="122"
         y="360"
         slotId="media_player"
         supportedTypes="LONG_TEXT EMPTY"
         name="Media player">
       <BoundingBox
-          width="180"
+          width="207"
           height="68"
           x="0"
           y="0" />
@@ -762,9 +762,9 @@
               <Image resource="[COMPLICATION.SMALL_IMAGE]" />
             </PartImage>
             <PartText
-                width="112"
+                width="68"
                 height="68"
-                x="68"
+                x="139"
                 y="0">
               <Text maxLines="3">
                 <Font
@@ -787,9 +787,9 @@
               <Image resource="[COMPLICATION.SMALL_IMAGE]" />
             </PartImage>
             <PartText
-                width="112"
+                width="68"
                 height="34"
-                x="68"
+                x="139"
                 y="0">
               <Text maxLines="2">
                 <Font
@@ -803,9 +803,9 @@
               </Text>
             </PartText>
             <PartText
-                width="112"
+                width="68"
                 height="34"
-                x="68"
+                x="139"
                 y="34">
               <Text maxLines="2">
                 <Font

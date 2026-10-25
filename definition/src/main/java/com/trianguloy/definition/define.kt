@@ -89,7 +89,7 @@ fun main() {
                                 +SimpleText({
                                     horizontal = height to ph(1.0)
                                 }) {
-//                                        if(type == LONG_TEXT) lines = 2
+                                    lines = 2
                                     expression("[COMPLICATION.TEXT]")
                                 }
                             }
@@ -105,7 +105,7 @@ fun main() {
                                     horizontal = height to ph(1.0)
                                     vertical = pv(0.3) to height
                                 }) {
-                                    if (type == LONG_TEXT) lines = 2
+                                    lines = 2
                                     expression("[COMPLICATION.TEXT]")
                                 }
                             }
@@ -119,7 +119,7 @@ fun main() {
         +SimpleComplication({
             slotId = "media_player"
             name = "Media player"
-            horizontal = ph(0.3) to ph(0.7)
+            horizontal = ph(0.27) to ph(0.73)
             vertical = pv(0.8) to pv(0.95)
         }) {
             forType(LONG_TEXT) {
@@ -131,7 +131,7 @@ fun main() {
                         // only text
                         +SimpleImage({ horizontal = 0 to height }, "[COMPLICATION.SMALL_IMAGE]")
                         +SimpleText({
-                            horizontal = height to ph(1.0)
+                            horizontal = (width - height) to ph(1.0)
                         }) {
                             lines = 3
                             expression("[COMPLICATION.TEXT]")
@@ -141,7 +141,7 @@ fun main() {
                         // title and text
                         +SimpleImage({ horizontal = 0 to height }, "[COMPLICATION.SMALL_IMAGE]")
                         +SimpleText({
-                            horizontal = height to ph(1.0)
+                            horizontal = (width - height) to ph(1.0)
                             vertical = 0 to pv(0.5)
 
                         }) {
@@ -149,7 +149,7 @@ fun main() {
                             expression("[COMPLICATION.TITLE]")
                         }
                         +SimpleText({
-                            horizontal = height to ph(1.0)
+                            horizontal = (width - height) to ph(1.0)
                             vertical = pv(0.5) to height
                         }) {
                             lines = 2
